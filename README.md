@@ -1,7 +1,7 @@
 # BlockchainRevolution
 
-  Student Name : Chenhan Ma
-  Student ID   : 823289  
+  Student Name : Chenhan Ma <br />
+  Student ID   : 823289  <br />
 
   
     
