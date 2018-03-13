@@ -1,0 +1,179 @@
+{
+  "contractName": "ProofOfExistence1",
+  "abi": [
+    {
+      "inputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    }
+  ],
+  "bytecode": "0x60606040523415600e57600080fd5b603580601b6000396000f3006060604052600080fd00a165627a7a7230582082a45759e13c320f15e44102a4c022454f1fb82764b643113549b73381a971c90029",
+  "deployedBytecode": "0x6060604052600080fd00a165627a7a7230582082a45759e13c320f15e44102a4c022454f1fb82764b643113549b73381a971c90029",
+  "sourceMap": "26:86:0:-;;;57:53;;;;;;;;26:86;;;;;;",
+  "deployedSourceMap": "26:86:0:-;;;;;",
+  "source": "pragma solidity ^0.4.4;\n\n\ncontract ProofOfExistence1 {\n  function ProofOfExistence1() {\n    // constructor\n  }\n}\n",
+  "sourcePath": "/Users/machenhan/Documents/FinalProject/eth/contracts/ProofOfExistence1.sol",
+  "ast": {
+    "absolutePath": "/Users/machenhan/Documents/FinalProject/eth/contracts/ProofOfExistence1.sol",
+    "exportedSymbols": {
+      "ProofOfExistence1": [
+        6
+      ]
+    },
+    "id": 7,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 1,
+        "literals": [
+          "solidity",
+          "^",
+          "0.4",
+          ".4"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:23:0"
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "documentation": null,
+        "fullyImplemented": true,
+        "id": 6,
+        "linearizedBaseContracts": [
+          6
+        ],
+        "name": "ProofOfExistence1",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "body": {
+              "id": 4,
+              "nodeType": "Block",
+              "src": "86:24:0",
+              "statements": []
+            },
+            "id": 5,
+            "implemented": true,
+            "isConstructor": true,
+            "isDeclaredConst": false,
+            "modifiers": [],
+            "name": "ProofOfExistence1",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 2,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "83:2:0"
+            },
+            "payable": false,
+            "returnParameters": {
+              "id": 3,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "86:0:0"
+            },
+            "scope": 6,
+            "src": "57:53:0",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "public"
+          }
+        ],
+        "scope": 7,
+        "src": "26:86:0"
+      }
+    ],
+    "src": "0:113:0"
+  },
+  "legacyAST": {
+    "absolutePath": "/Users/machenhan/Documents/FinalProject/eth/contracts/ProofOfExistence1.sol",
+    "exportedSymbols": {
+      "ProofOfExistence1": [
+        6
+      ]
+    },
+    "id": 7,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 1,
+        "literals": [
+          "solidity",
+          "^",
+          "0.4",
+          ".4"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:23:0"
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "documentation": null,
+        "fullyImplemented": true,
+        "id": 6,
+        "linearizedBaseContracts": [
+          6
+        ],
+        "name": "ProofOfExistence1",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "body": {
+              "id": 4,
+              "nodeType": "Block",
+              "src": "86:24:0",
+              "statements": []
+            },
+            "id": 5,
+            "implemented": true,
+            "isConstructor": true,
+            "isDeclaredConst": false,
+            "modifiers": [],
+            "name": "ProofOfExistence1",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 2,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "83:2:0"
+            },
+            "payable": false,
+            "returnParameters": {
+              "id": 3,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "86:0:0"
+            },
+            "scope": 6,
+            "src": "57:53:0",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "public"
+          }
+        ],
+        "scope": 7,
+        "src": "26:86:0"
+      }
+    ],
+    "src": "0:113:0"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.4.19+commit.c4cbbb05.Emscripten.clang"
+  },
+  "networks": {
+    "1520050680873": {
+      "events": {},
+      "links": {},
+      "address": "0x5b836d3073cfd7182f2cd3a6948d95eecb7da7d6",
+      "transactionHash": "0x29e5f1a8eb9b31354e3cc31912f6398bc29c4d0ee4dbcadd862612a164ecab27"
+    }
+  },
+  "schemaVersion": "2.0.0",
+  "updatedAt": "2018-03-03T11:14:15.236Z"
+}
