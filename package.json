@@ -1,0 +1,28 @@
+{
+  "name": "BlockchainRevolution",
+  "version": "1.0.0",
+  "description": "Student Name : Chenhan Ma <br />   Student ID   : 823289  <br />",
+  "main": "truffle-config.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "web3": "^1.0.0-beta.33",
+    "zeppelin-solidity": "1.8.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gaschwanden/BlockchainRevolution.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gaschwanden/BlockchainRevolution/issues"
+  },
+  "homepage": "https://github.com/gaschwanden/BlockchainRevolution#readme"
+}
