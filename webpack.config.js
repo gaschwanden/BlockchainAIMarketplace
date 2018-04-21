@@ -1,9 +1,12 @@
 const path = require('path')
+const HtmlWebPackPlugin = require('html-webpack-plugin')
+const webpack = require('webpack')
+
 module.exports = {
-  entry: path.join(__dirname, 'src/js', 'App.js'),
-  devServer: {
-    contentBase: path.join(__dirname, 'src'),
-  },
+  entry: ['react-hot-loader/patch',
+    'webpack/hot/only-dev-server',
+    path.join(__dirname, 'src/js', 'index.js'),
+  ],
   output: {
     path: path.join(__dirname, 'dist'),
     filename: 'build.js'
@@ -27,5 +30,20 @@ module.exports = {
         include: '/build/contracts/'
       }
     ]
+  },
+  plugins: [
+    new HtmlWebPackPlugin({
+      template: "./dist/index.html",
+      filename: "./index.html"
+    }),
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.NamedModulesPlugin()
+  ],
+  devServer: {
+    contentBase: path.join(__dirname, "dist"),
+    publicPath: '/',
+    port: 8080,
+    historyApiFallback: true,
+    hot: true
   }
 }
