@@ -1,10 +1,5 @@
-// var Migrations = artifacts.require("./Migrations.sol");
-//
-// module.exports = function(deployer) {
-//   deployer.deploy(Migrations);
-// };
+var Migrations = artifacts.require("./Migrations.sol");
 
-var ProofOfExistence1 = artifacts.require("./ProofOfExistence1.sol");
 module.exports = function(deployer) {
-  deployer.deploy(ProofOfExistence1);
+  deployer.deploy(Migrations);
 };

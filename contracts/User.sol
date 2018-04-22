@@ -8,7 +8,7 @@ contract User {
 
   /* This function is executed at initialization and sets the owner of the contract */
   function User() {
-    owner = msg.sender; 
+    owner = msg.sender;
   }
 
   struct User {
@@ -28,5 +28,11 @@ contract User {
       selfdestruct(owner);
   }
 
+  function upload(){
 
+  }
+
+  function getModel(){
+    
+  }
 }
