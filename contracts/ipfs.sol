@@ -1,6 +1,6 @@
 pragma solidity ^0.4.18;
 
-contract Contract {
+contract Ipfs {
   string ipfsHash;
 
   function sendHash(string x) public {
