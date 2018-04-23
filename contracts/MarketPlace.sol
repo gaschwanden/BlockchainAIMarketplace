@@ -1,13 +1,13 @@
-pragma solidity ^0.4.17;
+pragma solidity ^0.4.18;
 
-contract User {
+contract MarketPlace {
 
 
   /* Define variable owner of the type address */
   address owner;
-
+  address[] models;
   /* This function is executed at initialization and sets the owner of the contract */
-  function User() {
+  function MarketPlace() public{
     owner = msg.sender;
   }
 
@@ -28,11 +28,11 @@ contract User {
       selfdestruct(owner);
   }
 
-  function upload(){
+  function upload() public{
 
   }
 
-  function getModel(){
-    
+  function getModel() public{
+
   }
 }
