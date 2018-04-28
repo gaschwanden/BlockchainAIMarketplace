@@ -6,24 +6,40 @@ import 'antd/dist/antd.css';
 // import { AppContainer } from 'react-hot-loader'
 import Dashboard from './layout.js'
 import 'ant-design-pro/dist/ant-design-pro.css';
+import getWeb3 from './../utils/getWeb3';
 
-
-class App extends React.Component {
+ App extends React.Component {
 
   constructor(props){
     super(props);
+    const Contract = window.web3.eth.contract();
+
+
     this.state={
-
+        ContractInstance: Contract.at('');
     }
 
-    if (typeof web3 != 'undefined'){
-      this.web3Provider = web3.currentProvider
-    }else{
-      this.web3Provider = new Web3.providers.HttpProvider('http://localhost:7545')
-    }
+    // Setup Web3 Connection
+    getWeb3
+    .then(results => {
+      this.setState({
+        web3: results.web3
+      })
 
-    this.web3 = new Web3(this.web3Provider)
+      // Instantiate contract once web3 provided.
+      this.instantiateContract()
+    })
+    .catch(() => {
+      console.log('Error finding web3.')
+    })
+
+
   }
+
+  componentDidMount() {
+
+  }
+
 
   render(){
     return <Dashboard/>
