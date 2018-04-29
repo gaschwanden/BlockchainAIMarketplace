@@ -1,12 +1,21 @@
+@import url('https://fonts.googleapis.com/css?family=Poppins');
+
+
 .OutLayout{
   width: 100%;
   height: 100vh;
 }
 
 .logo {
-  width: 120px;
-  height: 31px;
-  background: rgba(255,255,255,.2);
-  margin: 16px 28px 16px 0;
+  width: auto;
+  vertical-align: super;
   float: left;
+  padding-left: 0%;
+  color: white;
+
+}
+
+.title{
+  font-family: 'Poppins', sans-serif;
+  font-size: 28px;
 }

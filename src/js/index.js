@@ -47,8 +47,8 @@ class App extends React.Component {
 
 
     this.state.web3.eth.getAccounts((error, account) => {
-      console.log('Get Accounts');
       this.setState({account})
+      console.log(account);
       marketPlace.deployed().then((instance) => {
         marketInstance = instance
       })
