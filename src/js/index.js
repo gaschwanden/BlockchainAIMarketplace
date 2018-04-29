@@ -12,7 +12,6 @@ class App extends React.Component {
 
   constructor(props){
     super(props)
-    // const Contract = window.web3.eth.contract();
 
     this.state={
         web3: null,
@@ -50,6 +49,7 @@ class App extends React.Component {
       this.setState({account})
       console.log(account);
       marketPlace.deployed().then((instance) => {
+        console.log("Deployed marketplace contract");
         marketInstance = instance
       })
     })
