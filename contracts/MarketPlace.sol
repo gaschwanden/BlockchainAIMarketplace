@@ -27,7 +27,8 @@ contract MarketPlace {
     address user_address;
     bytes[] submitted_data;
     uint balance;
-
+    uint[] models;
+    uint[] contests;
   }
 
   mapping (address => User) users;

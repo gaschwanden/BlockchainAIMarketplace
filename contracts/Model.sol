@@ -18,31 +18,24 @@ contract Model {
     bytes32 category;
     uint level;
     uint count;
-    uint childrenCount;
     int256 price;
   }
 
   address public organizer;
   uint public best_submission_index;
   int256 public best_submission_accuracy = 0;
-  uint public modelCount;
   bytes32[] public categories;
 
   mapping (uint => Node) nodes;
+  uint[] public models;
   mapping (bytes32 => uint[]) categoryModels;
 
 
   function get_model_from_category(bytes32 category)
-    public
-    returns (uint[] , int256[])
+    view public
+    returns (uint[])
   {
-    uint[] memory models = categoryModels[category];
-    int256[] storage accuracies;
-
-    for(uint i = 0; i<models.length; i++){
-      accuracies.push(nodes[models[i]].accuracy);
-    }
-    return (models, accuracies);
+    return categoryModels[category];
   }
 
 
@@ -76,14 +69,12 @@ contract Model {
   }  */
 
   function get_model_count() public view returns(uint count){
-    return modelCount;
+    return models.length;
   }
 
   function insert_node(uint parent, uint node) public {
     nodes[node].parent = parent;
     nodes[parent].children.push(node);
-    modelCount += 1;
-    nodes[parent].childrenCount += 1;
   }
 
   function get_children(uint node) public view returns (uint[] child){

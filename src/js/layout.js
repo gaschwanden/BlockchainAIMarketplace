@@ -13,8 +13,32 @@ import MyContests from './myContests.js'
 import MyModel from './myModels.js'
 import UserHome from './home.js'
 
+const routes =[
+  {
+    path: "/",
+    exact: true,
+    component: UserHome
+  },
+  {
+    path: "/mycontest",
+    component: MyContests
+  },
+  {
+    path: "/contests",
+    component: DiscoverContests
+  },
+  {
+    path: "/mymodel",
+    component: MyModel
+  },
+  {
+    path: "/models",
+    component: DiscoverModels
+  }
+];
 
 class Dashboard extends React.Component{
+
   render(){
     return(
       <Layout className="OutLayout">
@@ -29,11 +53,15 @@ class Dashboard extends React.Component{
               <Breadcrumb.Item>App</Breadcrumb.Item>
             </Breadcrumb>*/}
             <Content style={{ background: '#fff', padding: 24, margin: 0, minHeight: 280 }}>
-              <Route exact={true} path="/" component={UserHome}/>
-              <Route path="/mycontest" component={MyContests}/>
-              <Route path="/contests" component={DiscoverContests}/>
-              <Route path="/mymodel" component={MyModel}/>
-              <Route path="/models" component={DiscoverModels}/>
+              {routes.map((route, index) => (
+                  <Route
+                    key={index}
+                    path={route.path}
+                    exact={route.exact}
+                    component={route.component}
+                  />
+              ))}
+
             </Content>
           </Layout>
         </Layout>
