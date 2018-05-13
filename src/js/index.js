@@ -6,7 +6,8 @@ import 'antd/dist/antd.css';
 import Dashboard from './layout.js'
 import 'ant-design-pro/dist/ant-design-pro.css';
 import getWeb3 from './../utils/getWeb3';
-import MarketPlace from '../../build/contracts/MarketPlace.json'
+import MarketPlace from '../../build/contracts/MarketPlace.json';
+import 'babel-polyfill';
 
 class App extends React.Component {
 
