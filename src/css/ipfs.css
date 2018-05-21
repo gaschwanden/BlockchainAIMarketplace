@@ -3,6 +3,26 @@
 
 }
 
+.Form {
+    text-align: left;
+}
+
+.Upload {
+    vertical-align: middle;
+    text-align:center;
+}
+
+.input {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.getReceipt {
+    margin: 1em 1em 1em 1em;
+
+}
+
 .App-logo {
   animation: App-logo-spin infinite 20s linear;
   height: 80px;
@@ -22,7 +42,7 @@
 .App-intro {
   font-size: large;
 }
-/*some css I added*/
+
 input[type="file"] {
     display: inline-block;
 }
@@ -34,7 +54,7 @@ input[type="file"] {
 .table th {
     text-align: center;
 }
-/*end of my css*/
+
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }

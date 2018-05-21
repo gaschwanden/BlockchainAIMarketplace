@@ -13,6 +13,7 @@
     "react-bootstrap": "^0.32.1",
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
+    "react-stepzilla": "^4.7.2",
     "truffle-contract": "^3.0.5",
     "zeppelin-solidity": "1.8.0"
   },
