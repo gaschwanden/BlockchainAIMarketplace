@@ -13,33 +13,45 @@ import MyContests from './myContests.js'
 import MyModel from './myModels.js'
 import UserHome from './home.js'
 
-const routes =[
-  {
-    path: "/",
-    exact: true,
-    component: UserHome
-  },
-  {
-    path: "/mycontest",
-    component: MyContests
-  },
-  {
-    path: "/contests",
-    component: DiscoverContests
-  },
-  {
-    path: "/mymodel",
-    component: MyModel
-  },
-  {
-    path: "/models",
-    component: DiscoverModels
-  }
-];
 
 class Dashboard extends React.Component{
+    constructor(props){
+        super(props)
+        this.state = {
+            category: this.props.category,
+        }
+
+    }
 
   render(){
+
+      const routes =[
+          {
+              path: "/",
+              exact: true,
+              component: UserHome
+          },
+          {
+              path: "/mycontest",
+              component: MyContests
+          },
+          {
+              path: "/contests",
+              component: DiscoverContests
+          },
+          {
+              path: "/mymodel",
+              component: MyModel
+          },
+          {
+              path: "/models",
+              component: DiscoverModels,
+              category: this.props.category
+          }
+      ];
+
+      console.log("Constructor", routes[4].category)
+
     return(
       <Layout className="OutLayout">
         <TopBar account={this.props.account}/>
@@ -53,7 +65,7 @@ class Dashboard extends React.Component{
                     key={index}
                     path={route.path}
                     exact={route.exact}
-                    component={route.component}
+                    component= {() => <route.component data={route.category}/>}
                   />
               ))}
 

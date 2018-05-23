@@ -1,4 +1,4 @@
-pragma solidity ^0.4.18;
+pragma solidity ^0.4.22;
 
 contract Model {
   address public owner;
@@ -18,51 +18,64 @@ contract Model {
 
   // Constructor
   constructor(
-	  address _owner, uint _id, string _description, bytes _ipfs, uint _parent)
-	  public {
-	owner = _owner;
-	factory = msg.sender;
-	id = _id;
-	description = _description;
-	ipfs_address = _ipfs;
-	parent = _parent;
+      address _owner, uint _id, string _description, bytes _ipfs, uint _parent)
+      public {
+    owner = _owner;
+    factory = msg.sender;
+    id = _id;
+    description = _description;
+    ipfs_address = _ipfs;
+
+    if(uint(_parent) == 0){
+        genesis = true;
+    }else{
+        parent = _parent;
+        genesis = false;
+    }
   }
 
   modifier isOwner(address _caller) {
-	  require(msg.sender == factory);
-	  require(_caller == owner);
-	  _;
+      require(msg.sender == factory);
+      require(_caller == owner);
+      _;
   }
 
-	function set_accuracy(address caller, int256 _accuracy) public isOwner(caller) {
-	   accuracy  = _accuracy;
-	}
+    function set_accuracy(address caller, int256 _accuracy) public isOwner(caller) {
+       accuracy  = _accuracy;
+    }
 
-  bytes32[] public categories;
+    function get_accuracy() public view returns(int256){
+        return accuracy;
+    }
 
   function append_child(uint _child) public{
-	  children.push(_child);
+      children.push(_child);
   }
 
   function get_children() public view returns (uint[]){
-	return children;
+    return children;
   }
 
   function get_parent() public view returns (uint){
-	return parent;
+    return parent;
   }
 
-	function set_ipfs(address caller, bytes _ipfs) public isOwner(caller){
-		ipfs_address = _ipfs;
-	}
+    function set_ipfs(address caller, bytes _ipfs) public isOwner(caller){
+        ipfs_address = _ipfs;
+    }
 
   function get_name() public view returns(string){
-	  return description;
+      return description;
   }
 
   function get_Model() public constant returns(uint, string, int256, bytes32, int256){
 
-	return (id, description, accuracy, category, price);
+    return (id, description, accuracy, category, price);
   }
 
+    function kill() public {
+        require(children.length==0);
+        require(msg.sender == owner);
+        selfdestruct(owner);
+    }
 }

@@ -30,32 +30,32 @@
       "type": "function"
     }
   ],
-  "bytecode": "0x6060604052341561000f57600080fd5b6102e38061001e6000396000f30060606040526004361061004c576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff168063d13319c414610051578063dfb29935146100df575b600080fd5b341561005c57600080fd5b61006461013c565b6040518080602001828103825283818151815260200191508051906020019080838360005b838110156100a4578082015181840152602081019050610089565b50505050905090810190601f1680156100d15780820380516001836020036101000a031916815260200191505b509250505060405180910390f35b34156100ea57600080fd5b61013a600480803590602001908201803590602001908080601f016020809104026020016040519081016040528093929190818152602001838380828437820191505050505050919050506101e4565b005b6101446101fe565b60008054600181600116156101000203166002900480601f0160208091040260200160405190810160405280929190818152602001828054600181600116156101000203166002900480156101da5780601f106101af576101008083540402835291602001916101da565b820191906000526020600020905b8154815290600101906020018083116101bd57829003601f168201915b5050505050905090565b80600090805190602001906101fa929190610212565b5050565b602060405190810160405280600081525090565b828054600181600116156101000203166002900490600052602060002090601f016020900481019282601f1061025357805160ff1916838001178555610281565b82800160010185558215610281579182015b82811115610280578251825591602001919060010190610265565b5b50905061028e9190610292565b5090565b6102b491905b808211156102b0576000816000905550600101610298565b5090565b905600a165627a7a72305820494ff3cd792c2cce21e6b7178aef9c38dc5209f1f53edf1aa07a8f3f786407bf0029",
-  "deployedBytecode": "0x60606040526004361061004c576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff168063d13319c414610051578063dfb29935146100df575b600080fd5b341561005c57600080fd5b61006461013c565b6040518080602001828103825283818151815260200191508051906020019080838360005b838110156100a4578082015181840152602081019050610089565b50505050905090810190601f1680156100d15780820380516001836020036101000a031916815260200191505b509250505060405180910390f35b34156100ea57600080fd5b61013a600480803590602001908201803590602001908080601f016020809104026020016040519081016040528093929190818152602001838380828437820191505050505050919050506101e4565b005b6101446101fe565b60008054600181600116156101000203166002900480601f0160208091040260200160405190810160405280929190818152602001828054600181600116156101000203166002900480156101da5780601f106101af576101008083540402835291602001916101da565b820191906000526020600020905b8154815290600101906020018083116101bd57829003601f168201915b5050505050905090565b80600090805190602001906101fa929190610212565b5050565b602060405190810160405280600081525090565b828054600181600116156101000203166002900490600052602060002090601f016020900481019282601f1061025357805160ff1916838001178555610281565b82800160010185558215610281579182015b82811115610280578251825591602001919060010190610265565b5b50905061028e9190610292565b5090565b6102b491905b808211156102b0576000816000905550600101610298565b5090565b905600a165627a7a72305820494ff3cd792c2cce21e6b7178aef9c38dc5209f1f53edf1aa07a8f3f786407bf0029",
-  "sourceMap": "26:180:0:-;;;;;;;;;;;;;;;;;",
-  "deployedSourceMap": "26:180:0:-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;126:76;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;23:1:-1;8:100;33:3;30:1;27:10;8:100;;;99:1;94:3;90:11;84:18;80:1;75:3;71:11;64:39;52:2;49:1;45:10;40:15;;8:100;;;12:14;126:76:0;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;64:58;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;126:76;166:8;;:::i;:::-;189;182:15;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;126:76;:::o;64:58::-;116:1;105:8;:12;;;;;;;;;;;;:::i;:::-;;64:58;:::o;26:180::-;;;;;;;;;;;;;;;:::o;:::-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::i;:::-;;;:::o;:::-;;;;;;;;;;;;;;;;;;;;;;;;;;;:::o",
-  "source": "pragma solidity ^0.4.18;\n\ncontract Ipfs {\n  string ipfsHash;\n\n  function sendHash(string x) public {\n    ipfsHash = x;\n  }\n\n  function getHash() public view returns (string x) {\n    return ipfsHash;\n  }\n\n\n}\n",
+  "bytecode": "0x608060405234801561001057600080fd5b506102d7806100206000396000f30060806040526004361061004c576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff168063d13319c414610051578063dfb29935146100e1575b600080fd5b34801561005d57600080fd5b5061006661014a565b6040518080602001828103825283818151815260200191508051906020019080838360005b838110156100a657808201518184015260208101905061008b565b50505050905090810190601f1680156100d35780820380516001836020036101000a031916815260200191505b509250505060405180910390f35b3480156100ed57600080fd5b50610148600480360381019080803590602001908201803590602001908080601f01602080910402602001604051908101604052809392919081815260200183838082843782019150505050505091929192905050506101ec565b005b606060008054600181600116156101000203166002900480601f0160208091040260200160405190810160405280929190818152602001828054600181600116156101000203166002900480156101e25780601f106101b7576101008083540402835291602001916101e2565b820191906000526020600020905b8154815290600101906020018083116101c557829003601f168201915b5050505050905090565b8060009080519060200190610202929190610206565b5050565b828054600181600116156101000203166002900490600052602060002090601f016020900481019282601f1061024757805160ff1916838001178555610275565b82800160010185558215610275579182015b82811115610274578251825591602001919060010190610259565b5b5090506102829190610286565b5090565b6102a891905b808211156102a457600081600090555060010161028c565b5090565b905600a165627a7a72305820992a3ae64fb46342c66d841ac316084bbd11632678d9001c978d953f08ada9a00029",
+  "deployedBytecode": "0x60806040526004361061004c576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff168063d13319c414610051578063dfb29935146100e1575b600080fd5b34801561005d57600080fd5b5061006661014a565b6040518080602001828103825283818151815260200191508051906020019080838360005b838110156100a657808201518184015260208101905061008b565b50505050905090810190601f1680156100d35780820380516001836020036101000a031916815260200191505b509250505060405180910390f35b3480156100ed57600080fd5b50610148600480360381019080803590602001908201803590602001908080601f01602080910402602001604051908101604052809392919081815260200183838082843782019150505050505091929192905050506101ec565b005b606060008054600181600116156101000203166002900480601f0160208091040260200160405190810160405280929190818152602001828054600181600116156101000203166002900480156101e25780601f106101b7576101008083540402835291602001916101e2565b820191906000526020600020905b8154815290600101906020018083116101c557829003601f168201915b5050505050905090565b8060009080519060200190610202929190610206565b5050565b828054600181600116156101000203166002900490600052602060002090601f016020900481019282601f1061024757805160ff1916838001178555610275565b82800160010185558215610275579182015b82811115610274578251825591602001919060010190610259565b5b5090506102829190610286565b5090565b6102a891905b808211156102a457600081600090555060010161028c565b5090565b905600a165627a7a72305820992a3ae64fb46342c66d841ac316084bbd11632678d9001c978d953f08ada9a00029",
+  "sourceMap": "26:180:2:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;26:180:2;;;;;;;",
+  "deployedSourceMap": "26:180:2:-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;126:76;;8:9:-1;5:2;;;30:1;27;20:12;5:2;126:76:2;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;23:1:-1;8:100;33:3;30:1;27:10;8:100;;;99:1;94:3;90:11;84:18;80:1;75:3;71:11;64:39;52:2;49:1;45:10;40:15;;8:100;;;12:14;126:76:2;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;64:58;;8:9:-1;5:2;;;30:1;27;20:12;5:2;64:58:2;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;126:76;166:8;189;182:15;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;126:76;:::o;64:58::-;116:1;105:8;:12;;;;;;;;;;;;:::i;:::-;;64:58;:::o;26:180::-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::i;:::-;;;:::o;:::-;;;;;;;;;;;;;;;;;;;;;;;;;;;:::o",
+  "source": "pragma solidity ^0.4.22;\n\ncontract Ipfs {\n  string ipfsHash;\n\n  function sendHash(string x) public {\n    ipfsHash = x;\n  }\n\n  function getHash() public view returns (string x) {\n    return ipfsHash;\n  }\n\n\n}\n",
   "sourcePath": "/Users/machenhan/Documents/FinalProject/git_version/BlockchainRevolution/contracts/Ipfs.sol",
   "ast": {
     "absolutePath": "/Users/machenhan/Documents/FinalProject/git_version/BlockchainRevolution/contracts/Ipfs.sol",
     "exportedSymbols": {
       "Ipfs": [
-        22
+        195
       ]
     },
-    "id": 23,
+    "id": 196,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 1,
+        "id": 174,
         "literals": [
           "solidity",
           "^",
           "0.4",
-          ".18"
+          ".22"
         ],
         "nodeType": "PragmaDirective",
-        "src": "0:24:0"
+        "src": "0:24:2"
       },
       {
         "baseContracts": [],
@@ -63,34 +63,34 @@
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": true,
-        "id": 22,
+        "id": 195,
         "linearizedBaseContracts": [
-          22
+          195
         ],
         "name": "Ipfs",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
             "constant": false,
-            "id": 3,
+            "id": 176,
             "name": "ipfsHash",
             "nodeType": "VariableDeclaration",
-            "scope": 22,
-            "src": "44:15:0",
+            "scope": 195,
+            "src": "44:15:2",
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
               "typeIdentifier": "t_string_storage",
-              "typeString": "string storage ref"
+              "typeString": "string"
             },
             "typeName": {
-              "id": 2,
+              "id": 175,
               "name": "string",
               "nodeType": "ElementaryTypeName",
-              "src": "44:6:0",
+              "src": "44:6:2",
               "typeDescriptions": {
                 "typeIdentifier": "t_string_storage_ptr",
-                "typeString": "string storage pointer"
+                "typeString": "string"
               }
             },
             "value": null,
@@ -98,26 +98,26 @@
           },
           {
             "body": {
-              "id": 12,
+              "id": 185,
               "nodeType": "Block",
-              "src": "99:23:0",
+              "src": "99:23:2",
               "statements": [
                 {
                   "expression": {
                     "argumentTypes": null,
-                    "id": 10,
+                    "id": 183,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
                     "lValueRequested": false,
                     "leftHandSide": {
                       "argumentTypes": null,
-                      "id": 8,
+                      "id": 181,
                       "name": "ipfsHash",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 3,
-                      "src": "105:8:0",
+                      "referencedDeclaration": 176,
+                      "src": "105:8:2",
                       "typeDescriptions": {
                         "typeIdentifier": "t_string_storage",
                         "typeString": "string storage ref"
@@ -127,31 +127,31 @@
                     "operator": "=",
                     "rightHandSide": {
                       "argumentTypes": null,
-                      "id": 9,
+                      "id": 182,
                       "name": "x",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 5,
-                      "src": "116:1:0",
+                      "referencedDeclaration": 178,
+                      "src": "116:1:2",
                       "typeDescriptions": {
                         "typeIdentifier": "t_string_memory_ptr",
                         "typeString": "string memory"
                       }
                     },
-                    "src": "105:12:0",
+                    "src": "105:12:2",
                     "typeDescriptions": {
                       "typeIdentifier": "t_string_storage",
                       "typeString": "string storage ref"
                     }
                   },
-                  "id": 11,
+                  "id": 184,
                   "nodeType": "ExpressionStatement",
-                  "src": "105:12:0"
+                  "src": "105:12:2"
                 }
               ]
             },
             "documentation": null,
-            "id": 13,
+            "id": 186,
             "implemented": true,
             "isConstructor": false,
             "isDeclaredConst": false,
@@ -159,80 +159,80 @@
             "name": "sendHash",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 6,
+              "id": 179,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 5,
+                  "id": 178,
                   "name": "x",
                   "nodeType": "VariableDeclaration",
-                  "scope": 13,
-                  "src": "82:8:0",
+                  "scope": 186,
+                  "src": "82:8:2",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
                     "typeIdentifier": "t_string_memory_ptr",
-                    "typeString": "string memory"
+                    "typeString": "string"
                   },
                   "typeName": {
-                    "id": 4,
+                    "id": 177,
                     "name": "string",
                     "nodeType": "ElementaryTypeName",
-                    "src": "82:6:0",
+                    "src": "82:6:2",
                     "typeDescriptions": {
                       "typeIdentifier": "t_string_storage_ptr",
-                      "typeString": "string storage pointer"
+                      "typeString": "string"
                     }
                   },
                   "value": null,
                   "visibility": "internal"
                 }
               ],
-              "src": "81:10:0"
+              "src": "81:10:2"
             },
             "payable": false,
             "returnParameters": {
-              "id": 7,
+              "id": 180,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "99:0:0"
+              "src": "99:0:2"
             },
-            "scope": 22,
-            "src": "64:58:0",
+            "scope": 195,
+            "src": "64:58:2",
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "public"
           },
           {
             "body": {
-              "id": 20,
+              "id": 193,
               "nodeType": "Block",
-              "src": "176:26:0",
+              "src": "176:26:2",
               "statements": [
                 {
                   "expression": {
                     "argumentTypes": null,
-                    "id": 18,
+                    "id": 191,
                     "name": "ipfsHash",
                     "nodeType": "Identifier",
                     "overloadedDeclarations": [],
-                    "referencedDeclaration": 3,
-                    "src": "189:8:0",
+                    "referencedDeclaration": 176,
+                    "src": "189:8:2",
                     "typeDescriptions": {
                       "typeIdentifier": "t_string_storage",
                       "typeString": "string storage ref"
                     }
                   },
-                  "functionReturnParameters": 17,
-                  "id": 19,
+                  "functionReturnParameters": 190,
+                  "id": 192,
                   "nodeType": "Return",
-                  "src": "182:15:0"
+                  "src": "182:15:2"
                 }
               ]
             },
             "documentation": null,
-            "id": 21,
+            "id": 194,
             "implemented": true,
             "isConstructor": false,
             "isDeclaredConst": true,
@@ -240,78 +240,78 @@
             "name": "getHash",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 14,
+              "id": 187,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "142:2:0"
+              "src": "142:2:2"
             },
             "payable": false,
             "returnParameters": {
-              "id": 17,
+              "id": 190,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 16,
+                  "id": 189,
                   "name": "x",
                   "nodeType": "VariableDeclaration",
-                  "scope": 21,
-                  "src": "166:8:0",
+                  "scope": 194,
+                  "src": "166:8:2",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
                     "typeIdentifier": "t_string_memory_ptr",
-                    "typeString": "string memory"
+                    "typeString": "string"
                   },
                   "typeName": {
-                    "id": 15,
+                    "id": 188,
                     "name": "string",
                     "nodeType": "ElementaryTypeName",
-                    "src": "166:6:0",
+                    "src": "166:6:2",
                     "typeDescriptions": {
                       "typeIdentifier": "t_string_storage_ptr",
-                      "typeString": "string storage pointer"
+                      "typeString": "string"
                     }
                   },
                   "value": null,
                   "visibility": "internal"
                 }
               ],
-              "src": "165:10:0"
+              "src": "165:10:2"
             },
-            "scope": 22,
-            "src": "126:76:0",
+            "scope": 195,
+            "src": "126:76:2",
             "stateMutability": "view",
             "superFunction": null,
             "visibility": "public"
           }
         ],
-        "scope": 23,
-        "src": "26:180:0"
+        "scope": 196,
+        "src": "26:180:2"
       }
     ],
-    "src": "0:207:0"
+    "src": "0:207:2"
   },
   "legacyAST": {
     "absolutePath": "/Users/machenhan/Documents/FinalProject/git_version/BlockchainRevolution/contracts/Ipfs.sol",
     "exportedSymbols": {
       "Ipfs": [
-        22
+        195
       ]
     },
-    "id": 23,
+    "id": 196,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 1,
+        "id": 174,
         "literals": [
           "solidity",
           "^",
           "0.4",
-          ".18"
+          ".22"
         ],
         "nodeType": "PragmaDirective",
-        "src": "0:24:0"
+        "src": "0:24:2"
       },
       {
         "baseContracts": [],
@@ -319,34 +319,34 @@
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": true,
-        "id": 22,
+        "id": 195,
         "linearizedBaseContracts": [
-          22
+          195
         ],
         "name": "Ipfs",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
             "constant": false,
-            "id": 3,
+            "id": 176,
             "name": "ipfsHash",
             "nodeType": "VariableDeclaration",
-            "scope": 22,
-            "src": "44:15:0",
+            "scope": 195,
+            "src": "44:15:2",
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
               "typeIdentifier": "t_string_storage",
-              "typeString": "string storage ref"
+              "typeString": "string"
             },
             "typeName": {
-              "id": 2,
+              "id": 175,
               "name": "string",
               "nodeType": "ElementaryTypeName",
-              "src": "44:6:0",
+              "src": "44:6:2",
               "typeDescriptions": {
                 "typeIdentifier": "t_string_storage_ptr",
-                "typeString": "string storage pointer"
+                "typeString": "string"
               }
             },
             "value": null,
@@ -354,26 +354,26 @@
           },
           {
             "body": {
-              "id": 12,
+              "id": 185,
               "nodeType": "Block",
-              "src": "99:23:0",
+              "src": "99:23:2",
               "statements": [
                 {
                   "expression": {
                     "argumentTypes": null,
-                    "id": 10,
+                    "id": 183,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
                     "lValueRequested": false,
                     "leftHandSide": {
                       "argumentTypes": null,
-                      "id": 8,
+                      "id": 181,
                       "name": "ipfsHash",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 3,
-                      "src": "105:8:0",
+                      "referencedDeclaration": 176,
+                      "src": "105:8:2",
                       "typeDescriptions": {
                         "typeIdentifier": "t_string_storage",
                         "typeString": "string storage ref"
@@ -383,31 +383,31 @@
                     "operator": "=",
                     "rightHandSide": {
                       "argumentTypes": null,
-                      "id": 9,
+                      "id": 182,
                       "name": "x",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 5,
-                      "src": "116:1:0",
+                      "referencedDeclaration": 178,
+                      "src": "116:1:2",
                       "typeDescriptions": {
                         "typeIdentifier": "t_string_memory_ptr",
                         "typeString": "string memory"
                       }
                     },
-                    "src": "105:12:0",
+                    "src": "105:12:2",
                     "typeDescriptions": {
                       "typeIdentifier": "t_string_storage",
                       "typeString": "string storage ref"
                     }
                   },
-                  "id": 11,
+                  "id": 184,
                   "nodeType": "ExpressionStatement",
-                  "src": "105:12:0"
+                  "src": "105:12:2"
                 }
               ]
             },
             "documentation": null,
-            "id": 13,
+            "id": 186,
             "implemented": true,
             "isConstructor": false,
             "isDeclaredConst": false,
@@ -415,80 +415,80 @@
             "name": "sendHash",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 6,
+              "id": 179,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 5,
+                  "id": 178,
                   "name": "x",
                   "nodeType": "VariableDeclaration",
-                  "scope": 13,
-                  "src": "82:8:0",
+                  "scope": 186,
+                  "src": "82:8:2",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
                     "typeIdentifier": "t_string_memory_ptr",
-                    "typeString": "string memory"
+                    "typeString": "string"
                   },
                   "typeName": {
-                    "id": 4,
+                    "id": 177,
                     "name": "string",
                     "nodeType": "ElementaryTypeName",
-                    "src": "82:6:0",
+                    "src": "82:6:2",
                     "typeDescriptions": {
                       "typeIdentifier": "t_string_storage_ptr",
-                      "typeString": "string storage pointer"
+                      "typeString": "string"
                     }
                   },
                   "value": null,
                   "visibility": "internal"
                 }
               ],
-              "src": "81:10:0"
+              "src": "81:10:2"
             },
             "payable": false,
             "returnParameters": {
-              "id": 7,
+              "id": 180,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "99:0:0"
+              "src": "99:0:2"
             },
-            "scope": 22,
-            "src": "64:58:0",
+            "scope": 195,
+            "src": "64:58:2",
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "public"
           },
           {
             "body": {
-              "id": 20,
+              "id": 193,
               "nodeType": "Block",
-              "src": "176:26:0",
+              "src": "176:26:2",
               "statements": [
                 {
                   "expression": {
                     "argumentTypes": null,
-                    "id": 18,
+                    "id": 191,
                     "name": "ipfsHash",
                     "nodeType": "Identifier",
                     "overloadedDeclarations": [],
-                    "referencedDeclaration": 3,
-                    "src": "189:8:0",
+                    "referencedDeclaration": 176,
+                    "src": "189:8:2",
                     "typeDescriptions": {
                       "typeIdentifier": "t_string_storage",
                       "typeString": "string storage ref"
                     }
                   },
-                  "functionReturnParameters": 17,
-                  "id": 19,
+                  "functionReturnParameters": 190,
+                  "id": 192,
                   "nodeType": "Return",
-                  "src": "182:15:0"
+                  "src": "182:15:2"
                 }
               ]
             },
             "documentation": null,
-            "id": 21,
+            "id": 194,
             "implemented": true,
             "isConstructor": false,
             "isDeclaredConst": true,
@@ -496,76 +496,70 @@
             "name": "getHash",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 14,
+              "id": 187,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "142:2:0"
+              "src": "142:2:2"
             },
             "payable": false,
             "returnParameters": {
-              "id": 17,
+              "id": 190,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 16,
+                  "id": 189,
                   "name": "x",
                   "nodeType": "VariableDeclaration",
-                  "scope": 21,
-                  "src": "166:8:0",
+                  "scope": 194,
+                  "src": "166:8:2",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
                     "typeIdentifier": "t_string_memory_ptr",
-                    "typeString": "string memory"
+                    "typeString": "string"
                   },
                   "typeName": {
-                    "id": 15,
+                    "id": 188,
                     "name": "string",
                     "nodeType": "ElementaryTypeName",
-                    "src": "166:6:0",
+                    "src": "166:6:2",
                     "typeDescriptions": {
                       "typeIdentifier": "t_string_storage_ptr",
-                      "typeString": "string storage pointer"
+                      "typeString": "string"
                     }
                   },
                   "value": null,
                   "visibility": "internal"
                 }
               ],
-              "src": "165:10:0"
+              "src": "165:10:2"
             },
-            "scope": 22,
-            "src": "126:76:0",
+            "scope": 195,
+            "src": "126:76:2",
             "stateMutability": "view",
             "superFunction": null,
             "visibility": "public"
           }
         ],
-        "scope": 23,
-        "src": "26:180:0"
+        "scope": 196,
+        "src": "26:180:2"
       }
     ],
-    "src": "0:207:0"
+    "src": "0:207:2"
   },
   "compiler": {
     "name": "solc",
-    "version": "0.4.21+commit.dfe3193c.Emscripten.clang"
+    "version": "0.4.24+commit.e67f0147.Emscripten.clang"
   },
   "networks": {
     "5777": {
       "events": {},
       "links": {},
-      "address": "0x8f0483125fcb9aaaefa9209d8e9d7b9c8b9fb90f",
-      "transactionHash": "0x6c5023e97f3083cd38210ba1edaaa288195c3911a670f5f91d75c0a78b7cfb76"
-    },
-    "1524493362169": {
-      "events": {},
-      "links": {},
-      "address": "0x867e7f2f7d77c072e5e3238d1030e079c4ff6440",
-      "transactionHash": "0x37f20c62e07333bdac29503a19a1e03e9ae4eb1f80b78966233491e885373ac6"
+      "address": "0x35b338b4ade005f25a8982a597638827b8617ad4",
+      "transactionHash": "0xa029c6a06919dc7f66c7bf60455b2eed23b4dde5202230c13af13e96042c0215"
     }
   },
   "schemaVersion": "2.0.0",
-  "updatedAt": "2018-04-30T13:24:32.300Z"
+  "updatedAt": "2018-05-23T16:06:00.783Z"
 }

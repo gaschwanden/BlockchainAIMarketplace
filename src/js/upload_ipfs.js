@@ -1,3 +1,4 @@
+import {Grid, Form } from 'react-bootstrap';
 import React, { Component } from 'react';
 //import logo from './logo.svg';
 import './../css/ipfs.css';
@@ -6,27 +7,24 @@ import getWeb3 from './../utils/getWeb3.js';
 
 import ipfs from './ipfs.js';
 import storehash from './storehash.js';
-import { Button, Table, Form, Input, Upload, Icon } from 'antd';
-const FormItem = Form.Item;
+import { Button, Table } from 'antd';
 
 
 
 class Ipfs extends Component {
 
     state = {
-        ipfsHash:null,
-        buffer:'',
-        ethAddress:'',
-        blockNumber:'',
-        transactionHash:'',
-        gasUsed:'',
-        txReceipt: '',
-        category:'Test Category',
-        author:'Test Author',
+      ipfsHash:null,
+      buffer:'',
+      ethAddress:'',
+      blockNumber:'',
+      transactionHash:'',
+      gasUsed:'',
+      txReceipt: ''
     };
 
 
-    // Model file buffer
+
     captureFile =(event) => {
         event.stopPropagation()
         event.preventDefault()
@@ -43,31 +41,28 @@ class Ipfs extends Component {
         this.setState({buffer});
     };
 
-
-    // Display transaction receipt
     onClick = async () => {
-        try{
-            this.setState({blockNumber:"waiting.."});
-            this.setState({gasUsed:"waiting..."});
-            console.log("Data Source", this.dataSource);
-            console.log(this.state);
-            // get Transaction Receipt in console on click
-            // See: https://web3js.readthedocs.io/en/1.0/web3-eth.html#gettransactionreceipt
-            await web3.eth.getTransactionReceipt(this.state.transactionHash, (err, txReceipt)=>{
-              console.log(err,txReceipt);
-              this.setState({txReceipt});
-            }); //await for getTransactionReceipt
 
-            await this.setState({blockNumber: this.state.txReceipt.blockNumber});
-            await this.setState({gasUsed: this.state.txReceipt.gasUsed});
-          } //try
-        catch(error){
-            console.log(error);
-          } //catch
+      try{
+          this.setState({blockNumber:"waiting.."});
+          this.setState({gasUsed:"waiting..."});
+          console.log("Data Source", this.dataSource);
+          console.log(this.state);
+          // get Transaction Receipt in console on click
+          // See: https://web3js.readthedocs.io/en/1.0/web3-eth.html#gettransactionreceipt
+          await web3.eth.getTransactionReceipt(this.state.transactionHash, (err, txReceipt)=>{
+            console.log(err,txReceipt);
+            this.setState({txReceipt});
+          }); //await for getTransactionReceipt
+
+          await this.setState({blockNumber: this.state.txReceipt.blockNumber});
+          await this.setState({gasUsed: this.state.txReceipt.gasUsed});
+        }
+      catch(error){
+          console.log(error);
+        }
     } //onClick
 
-
-    // Function for handling upload the model to IPFS
     onSubmit = async (event) => {
       event.preventDefault();
 
@@ -99,18 +94,6 @@ class Ipfs extends Component {
         }); //storehash
       }) //await ipfs.add
     }; //onSubmit
-
-
-    // Function for handling upload the whole form to Blockchain
-    handleSubmit = (e) => {
-        e.preventDefault();
-        this.props.form.validateFields((err, values) => {
-            if (!err) {
-                console.log('Received values of form: ', values);
-            }
-        });
-    };
-
 
     render() {
 
@@ -146,61 +129,33 @@ class Ipfs extends Component {
             key: 'value',
         }];
 
-
       return (
         <div className="App">
-            <Form onSubmit={this.handleSubmit}>
-                <div className="Form">
-                    <FormItem label="Name">
-                        <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                               defaultValue={this.state.author}
-                               size="large"
-                               disabled="true"/>
-                    </FormItem>
-                    <FormItem label="Model Category">
-                        <Input prefix={<Icon type="bars" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                               defaultValue={this.state.category}
-                               size="large"
-                               disabled="true"/>
-                    </FormItem>
-                    <FormItem label="Model Name">
-                        <Input prefix={<Icon type="file" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                               placeholder="Input your model name"
-                               size="large"
-                               required="true"
-                        />
-                    </FormItem>
-                </div>
-                <hr />
-                <div>
-                    <h2> Choose file to send to IPFS </h2>
 
-                      <Form onSubmit={this.onSubmit}>
-                          <div>
-                              <input className="input"
-                                  type = "file"
-                                  onChange = {this.captureFile}
-                              />
-                              <Button
-                                  type="primary"
-                                  htmlType="submit">
-                                  Send it
-                              </Button>
-                          </div>
+          <hr />
 
-                      </Form>
-                      <hr/>
-                        <Button className="getReceipt" onClick = {this.onClick}> Get Transaction Receipt </Button>
-                        <br />
-                        <Table dataSource={dataSource} columns={columns} />
-                </div>
-                <FormItem>
-                    <Button type="primary" htmlType="submit">Submit Model</Button>
-                </FormItem>
-            </Form>
-        </div>
+        <Grid>
+          <h2> Choose file to send to IPFS </h2>
+          <Form onSubmit={this.onSubmit}>
+            <input
+              type = "file"
+              onChange = {this.captureFile}
+            />
+             <Button
+             type="primary"
+             htmlType="submit">
+             Send it
+             </Button>
+          </Form>
+
+          <hr/>
+            <Button onClick = {this.onClick}> Get Transaction Receipt </Button>
+            <hr />
+            <Table dataSource={dataSource} columns={columns} />
+        </Grid>
+     </div>
       );
-    } //render
+    } 
 }
 
 export default Ipfs;

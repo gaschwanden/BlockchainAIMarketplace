@@ -4,15 +4,23 @@ import './Model.sol';
 
 contract MarketPlace {
 
-    string[] categories;
+    string[4]  Categories = [
+        "Image Recognition",
+        "Models for image recognition, such as categorizing animals",
+        "Medical Diagnosis",
+        "Models for disease diagnosis, such as cancer classification"];
+
+    uint  category_count = 4;
+
     address owner;
 
+    // Global data storage for models
     uint public model_count;
     mapping (address => User) users;
     mapping (address => address[]) model_by_user;
     mapping (uint => Model) models;
+    uint[] indexes; // List of Model IDs for enumeration
 
-    mapping (address => bytes[]) ipfs_by_address;
     mapping (address => uint[]) contestId;
 
 
@@ -21,6 +29,35 @@ contract MarketPlace {
 
     constructor() public{
       owner = msg.sender;
+
+    }
+
+    uint storedData;
+
+    function set(uint x) public {
+      storedData = x;
+    }
+
+    function set_default(uint _num) public{
+        category_count = _num;
+        Categories[0] = "ImageData";
+        Categories[1] = "MedicalData";
+    }
+
+    function get() public view returns (uint) {
+      return storedData;
+    }
+
+    function test() public constant returns (string){
+      return "TEST";
+    }
+
+    function get_count() public view returns(uint){
+        return category_count;
+    }
+
+    function get_category(uint _id) public view returns(string){
+        return Categories[_id];
     }
 
     function() public payable {}
@@ -38,18 +75,26 @@ contract MarketPlace {
       model_by_user[msg.sender].push(new_model);
       models[id] = new_model;
       model_count = model_count + 1;
+      indexes.push(id);
       return true;
     }
 
-    function set_accuracy(uint id, int256 _accuarcy) public {
+    function set_accuracy(uint _id, int256 _accuarcy) public {
         require(model_by_user[msg.sender].length != 0);
-        models[id].set_accuracy(msg.sender, _accuarcy);
+        models[_id].set_accuracy(msg.sender, _accuarcy);
+        if (_accuarcy > best_submission_accuracy){
+            best_submission_accuracy = _accuarcy;
+            best_submission_index = _id;
+        }
     }
 
 
-    function get_model_desc(uint _id) public view
-    returns(string){
+    function get_model_desc(uint _id) public view returns(string){
         return models[_id].get_name();
+    }
+
+    function get_model_accuracy(uint _id) public view returns(int256){
+        return models[_id].get_accuracy();
     }
 
     function get_model_by_id(uint _id) public view returns(address){

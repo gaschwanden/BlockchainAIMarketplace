@@ -7,7 +7,6 @@ class MyModels extends React.Component{
   render(){
     return(
       <div>
-
         <Ipfs/>
       </div>
     )

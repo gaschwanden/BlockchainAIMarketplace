@@ -1,4 +1,4 @@
-pragma solidity ^0.4.18;
+pragma solidity ^0.4.22;
 
 import './SafeMath.sol';
 import './ERC20.sol';
@@ -14,7 +14,7 @@ contract Token is ERC20 {
     mapping (address => uint256) internal balances;
     mapping (address => mapping (address => uint256)) internal allowed;
 
-    function Token(string name, string symbol, uint8 decimals, uint256 totalSupply) public {
+    constructor(string name, string symbol, uint8 decimals, uint256 totalSupply) public {
         _symbol = symbol;
         _name = name;
         _decimals = decimals;
