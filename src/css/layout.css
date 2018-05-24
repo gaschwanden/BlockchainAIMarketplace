@@ -1,5 +1,8 @@
 @import url('https://fonts.googleapis.com/css?family=Poppins');
 
+.ToClick{
+  cursor: pointer;
+}
 
 .OutLayout{
   width: 100%;

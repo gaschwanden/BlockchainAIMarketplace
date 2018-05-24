@@ -12,15 +12,16 @@ import DiscoverModels from './discoverModel.js'
 import MyContests from './myContests.js'
 import MyModel from './myModels.js'
 import UserHome from './home.js'
-
+import ModelList from './models.js'
 
 class Dashboard extends React.Component{
     constructor(props){
         super(props)
         this.state = {
             category: this.props.category,
+            web3: this.props.web3,
+            instance: this.props.instance,
         }
-
     }
 
   render(){
@@ -46,11 +47,18 @@ class Dashboard extends React.Component{
           {
               path: "/models",
               component: DiscoverModels,
-              category: this.props.category
+              category: this.props.category,
+              routes:[
+                  {
+                      path: "/models/:categoryName",
+                      component: ModelList
+                  },
+              ]
           }
       ];
 
       console.log("Constructor", routes[4].category)
+      console.log("Instance",this.props.instance)
 
     return(
       <Layout className="OutLayout">
@@ -65,9 +73,14 @@ class Dashboard extends React.Component{
                     key={index}
                     path={route.path}
                     exact={route.exact}
-                    component= {() => <route.component data={route.category}/>}
+                    component= {() =>
+                        <route.component
+                            data={route.category}
+                            web3={this.state.web3}
+                            instance={this.state.instance}/>}
                   />
               ))}
+
 
             </Content>
           </Layout>

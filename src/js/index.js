@@ -17,6 +17,7 @@ class App extends React.Component {
         web3: null,
         account: '0x0',
         categories: [],
+        instance: null,
     }
   }
 
@@ -49,10 +50,9 @@ class App extends React.Component {
       console.log(account);
       marketPlace.deployed().then((instance)=>{
         marketInstance = instance;
-        console.log(marketInstance);
+        this.setState({instance});
 
-
-          return marketInstance.get_count.call()
+        return marketInstance.get_count.call()
       }).then((result)=>{
           var category_count = result.c[0];
           // console.log("2", category_count)
@@ -78,7 +78,9 @@ class App extends React.Component {
   render(){
     return <Dashboard
         account={this.state.account}
-        category={this.state.categories}/>
+        category={this.state.categories}
+        web3={this.state.web3}
+        instance={this.state.instance}/>
   }
 
 }
