@@ -2,7 +2,6 @@ import { Layout, Menu, Breadcrumb, Icon, Button } from 'antd';
 const { SubMenu } = Menu;
 const {  Content, Sider } = Layout;
 import React from 'react'
-import ReactDOM from 'react-dom'
 import './../css/layout.css'
 import TopBar from './header.js'
 import Navigation from './navigation.js'
@@ -19,9 +18,21 @@ class Dashboard extends React.Component{
         super(props)
         this.state = {
             category: this.props.category,
-            web3: this.props.web3,
-            instance: this.props.instance,
+            web3: null,
+            instance: null,
         }
+
+    }
+
+    static getDerivedStateFromProps(nextProps, prevState){
+        if (nextProps.web3 !== prevState.web3 || nextProps.instance !== prevState.instance) {
+            return {
+                web3: nextProps.web3,
+                instance: nextProps.instance,
+            };
+        }
+        // Return null to indicate no change to state.
+        return null;
     }
 
   render(){
@@ -48,17 +59,16 @@ class Dashboard extends React.Component{
               path: "/models",
               component: DiscoverModels,
               category: this.props.category,
-              routes:[
-                  {
-                      path: "/models/:categoryName",
-                      component: ModelList
-                  },
-              ]
-          }
+              exact: true
+          },
+          {
+              path: "/models/:categoryName",
+              component: ModelList
+          },
       ];
 
-      console.log("Constructor", routes[4].category)
-      console.log("Instance",this.props.instance)
+      // console.log("Constructor", routes[4].category)
+      console.log("Instance",this.state.instance,)
 
     return(
       <Layout className="OutLayout">
@@ -77,7 +87,7 @@ class Dashboard extends React.Component{
                         <route.component
                             data={route.category}
                             web3={this.state.web3}
-                            instance={this.state.instance}/>}
+                            instance={this.state.instance}/>} // TODO pass state
                   />
               ))}
 

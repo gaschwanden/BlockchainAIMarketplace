@@ -8,7 +8,21 @@ import '../css/layout.css';
 class ModelList extends React.Component{
     constructor(props){
         super(props);
+        this.state = {
+            web3: null,
+            instance: null,
+        }
+    }
 
+    static getDerivedStateFromProps(nextProps, prevState){
+        if (nextProps.web3 !== prevState.web3 || nextProps.instance !== prevState.instance) {
+            return {
+                web3: nextProps.web3,
+                instance: nextProps.instance,
+            };
+        }
+        // Return null to indicate no change to state.
+        return null;
     }
 
 

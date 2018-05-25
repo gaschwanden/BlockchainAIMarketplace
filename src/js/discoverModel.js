@@ -6,21 +6,31 @@ import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
 class DiscoverModels extends React.Component{
     constructor(props){
-        super(props)
-        console.log("Category",this.props.data);
+        super(props);
         this.state = {
             category: this.props.data,
-            web3: this.props.web3,
-            instance: this.props.instance,
+            web3: null,
+            instance: null,
         }
 
         // This binding is necessary to make `this` work in the callback
         this.handleClick = this.handleClick.bind(this);
     }
 
+    static getDerivedStateFromProps(nextProps, prevState){
+        if (nextProps.web3 !== prevState.web3 || nextProps.instance !== prevState.instance) {
+            return {
+                web3: nextProps.web3,
+                instance: nextProps.instance,
+            };
+        }
+        // Return null to indicate no change to state.
+        return null;
+    }
+
     handleClick() {
-        console.log("Clicked",this.id)
-        history.push('/new-location')
+        console.log("Clicked", this.state.web3, this.state.instance)
+
     }
 
   render(){

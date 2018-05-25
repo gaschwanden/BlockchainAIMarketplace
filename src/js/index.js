@@ -76,7 +76,9 @@ class App extends React.Component {
 
 
   render(){
-    return <Dashboard
+      // console.log("Index", this.state.web3, this.state.instance)
+
+      return <Dashboard
         account={this.state.account}
         category={this.state.categories}
         web3={this.state.web3}
