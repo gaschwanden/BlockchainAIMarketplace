@@ -6,12 +6,13 @@ import './../css/layout.css'
 import TopBar from './header.js'
 import Navigation from './navigation.js'
 import { BrowserRouter as Router, Link, NavLink, Route } from "react-router-dom";
-import DiscoverContests from './discoverContest.js'
-import DiscoverModels from './discoverModel.js'
-import MyContests from './myContests.js'
-import MyModel from './myModels.js'
+import DiscoverContests from './discover_contest.js'
+import DiscoverModels from './discover_model.js'
+import MyContests from './my_contests.js'
+import MyModel from './my_models.js'
 import UserHome from './home.js'
-import ModelList from './models.js'
+import ModelList from './model_list.js'
+import ModelDetail from './model_detail.js'
 
 class Dashboard extends React.Component{
     constructor(props){
@@ -53,7 +54,8 @@ class Dashboard extends React.Component{
           },
           {
               path: "/mymodel",
-              component: MyModel
+              component: MyModel,
+              category: this.props.category,
           },
           {
               path: "/models",
@@ -65,9 +67,14 @@ class Dashboard extends React.Component{
               path: "/models/:categoryName",
               component: ModelList
           },
+          {
+              path: "/model/:modelID",
+              component: ModelDetail,
+              exact: true
+          }
       ];
 
-      // console.log("Constructor", routes[4].category)
+      console.log("Constructor", routes[4].category)
       console.log("Instance",this.state.instance,)
 
     return(
@@ -85,6 +92,7 @@ class Dashboard extends React.Component{
                     exact={route.exact}
                     component= {() =>
                         <route.component
+                            account={this.props.account}
                             data={route.category}
                             web3={this.state.web3}
                             instance={this.state.instance}/>} // TODO pass state

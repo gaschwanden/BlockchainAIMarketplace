@@ -14,3 +14,10 @@
  - 4.22 Implement functional contract
  - 4.30 Implement Front-end website
  - 5.15 Improvements
+
+
+#### Configuration
+
+Each time restart Metamask or Ganache, run the following command to re-migrate and compile all the contracts.
+
+	truffle migrate --reset --compile-all

@@ -2,36 +2,44 @@ import React, { Component } from 'react';
 //import logo from './logo.svg';
 import './../css/ipfs.css';
 import web3 from './../utils/web3.js';
-import getWeb3 from './../utils/getWeb3.js';
 
-import ipfs from './ipfs.js';
-import storehash from './storehash.js';
+import ipfs from '../utils/ipfs.js';
+import storehash from '../utils/storehash.js';
 import { Button, Table, Form, Input, Upload, Icon } from 'antd';
 const FormItem = Form.Item;
 
 
 
-class Ipfs extends Component {
+class UploadModel extends Component {
     constructor(props){
         super(props)
         this.state = {
-            web3: this.props.web3,
-            instance: this.props.instance,
-        }
-        console.log(this.props.web3, this.props.instance)
+            web3: null,
+            instance: null,
+            ipfsHash:null,
+            buffer:'',
+            ethAddress:'',
+            blockNumber:'',
+            transactionHash:'',
+            gasUsed:'',
+            txReceipt: '',
+            category:'Test Category',
+            author:'Test Author',
+            account: this.props.data,
+        };
     }
 
-    state = {
-        ipfsHash:null,
-        buffer:'',
-        ethAddress:'',
-        blockNumber:'',
-        transactionHash:'',
-        gasUsed:'',
-        txReceipt: '',
-        category:'Test Category',
-        author:'Test Author',
-    };
+    static getDerivedStateFromProps(nextProps, prevState){
+        if (nextProps!== prevState) {
+            return {
+                web3: nextProps.web3,
+                instance: nextProps.instance,
+            };
+        }
+        // Return null to indicate no change to state.
+        return null;
+    }
+
 
 
     // Model file buffer
@@ -42,7 +50,7 @@ class Ipfs extends Component {
         let reader = new window.FileReader()
         reader.readAsArrayBuffer(file)
         reader.onloadend = () => this.convertToBuffer(reader)
-      };
+    };
 
     convertToBuffer = async(reader) => {
       //file is converted to a buffer to prepare for uploading to IPFS
@@ -108,15 +116,36 @@ class Ipfs extends Component {
       }) //await ipfs.add
     }; //onSubmit
 
+
     // TODO upload web3 functions
     // Function for handling upload the whole form to Blockchain
     handleSubmit = (e) => {
         e.preventDefault();
-        this.props.form.validateFields((err, values) => {
-            if (!err) {
-                console.log('Received values of form: ', values);
-            }
-        });
+        var category = e.target.category.value;
+        var username = e.target.username.value;
+        var model = e.target.model.value;
+        var ipfs = this.state.ipfsHash;
+
+        var instance;
+        this.state.web3.eth.getAccounts((error, accounts) => {
+            instance = this.state.instance;
+            console.log(instance)
+            this.setState({account:accounts[0]});
+
+            return instance.create_model(model, ipfs, 0, {from:accounts[0]})
+        }).then((result)=>{
+
+            console.log(result)
+            return instance.get_model_count.call()
+
+        }).then((result)=>{
+            console.log(result)
+
+            return instance.get_all_model_by_user(this.props.account, {from:this.state.account})
+        }).then((result)=>{
+            console.log(result)
+        })
+
     };
 
 
@@ -163,18 +192,21 @@ class Ipfs extends Component {
                         <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
                                defaultValue={this.state.author}
                                size="large"
+                               name="username"
                                disabled="true"/>
                     </FormItem>
                     <FormItem label="Model Category">
                         <Input prefix={<Icon type="bars" style={{ color: 'rgba(0,0,0,.25)' }} />}
                                defaultValue={this.state.category}
                                size="large"
+                               name="category"
                                disabled="true"/>
                     </FormItem>
                     <FormItem label="Model Name">
                         <Input prefix={<Icon type="file" style={{ color: 'rgba(0,0,0,.25)' }} />}
                                placeholder="Input your model name"
                                size="large"
+                               name="model"
                                required="true"
                         />
                     </FormItem>
@@ -191,7 +223,8 @@ class Ipfs extends Component {
                               />
                               <Button
                                   type="primary"
-                                  htmlType="submit">
+                                  htmlType="submit"
+                                  name="submitFile">
                                   Send it
                               </Button>
                           </div>
@@ -203,7 +236,7 @@ class Ipfs extends Component {
                         <Table dataSource={dataSource} columns={columns} />
                 </div>
                 <FormItem>
-                    <Button type="primary" htmlType="submit">Submit Model</Button>
+                    <Button type="primary" htmlType="submit" name="submitModel">Submit Model</Button>
                 </FormItem>
             </Form>
         </div>
@@ -211,4 +244,4 @@ class Ipfs extends Component {
     } //render
 }
 
-export default Ipfs;
+export default UploadModel;

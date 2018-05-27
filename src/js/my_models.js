@@ -1,5 +1,11 @@
+/**
+ * Created by machenhan on 2018/5/24.
+ *
+ * List of models of a user
+ *
+ */
 import React from 'react'
-import Ipfs from './upload_ipfs.js'
+import UploadModel from './upload_model.js'
 
 
 class MyModels extends React.Component{
@@ -17,7 +23,10 @@ class MyModels extends React.Component{
 
     return(
       <div>
-        <Ipfs web3={this.state.web3} instance={this.state.instance}/>
+        <UploadModel
+            account={this.props.account}
+            web3={this.props.web3}
+            instance={this.props.instance}/>
       </div>
     )
   }

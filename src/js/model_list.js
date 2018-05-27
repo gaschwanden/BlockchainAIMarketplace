@@ -1,5 +1,8 @@
 /**
  * Created by machenhan on 2018/5/24.
+ *
+ * List of Models based on corresponding filters
+ *
  */
 import React from 'react'
 import { List, Card } from 'antd';
@@ -25,7 +28,7 @@ class ModelList extends React.Component{
         return null;
     }
 
-
+    // TODO render model list
     render(){
         const data = [
             {

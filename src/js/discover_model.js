@@ -1,8 +1,8 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
 import { List, Card } from 'antd';
 import '../css/layout.css';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import ModelDetails from './model_detail.js';
 
 class DiscoverModels extends React.Component{
     constructor(props){
@@ -43,6 +43,8 @@ class DiscoverModels extends React.Component{
           data.push(temp)
       }
 
+
+      console.log(category)
       return(
       <div>
           <List
@@ -59,6 +61,7 @@ class DiscoverModels extends React.Component{
                   </Link>
               )}
           />
+          <ModelDetails/>
       </div>
     )
   }

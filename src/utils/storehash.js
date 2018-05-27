@@ -1,5 +1,4 @@
 import web3 from './../utils/web3';
-import getWeb3 from './../utils/getWeb3';
 
 const address = '0xb84b12e953f5bcf01b05f926728e855f2d4a67a9';
 

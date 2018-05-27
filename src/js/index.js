@@ -2,7 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import './../css/index.css'
 import 'antd/dist/antd.css';
-import Dashboard from './layout.js'
+import Dashboard from './dashboard.js'
 import 'ant-design-pro/dist/ant-design-pro.css';
 import getWeb3 from './../utils/getWeb3';
 import MarketPlace from '../../build/contracts/MarketPlace.json';
@@ -26,7 +26,7 @@ class App extends React.Component {
     getWeb3.then(results => {
       this.setState({
         web3: results.web3
-      })
+      });
 
       // Instantiate contract once web3 provided.
       this.instantiateContract()
@@ -55,20 +55,20 @@ class App extends React.Component {
         return marketInstance.get_count.call()
       }).then((result)=>{
           var category_count = result.c[0];
-          // console.log("2", category_count)
+          console.log("2", result)
           return category_count
       }).then((result)=>{
           var temp = [];
           for (var i=0 ; i<result ; i++){
             marketInstance.get_category.call(i).then((result)=>{
-              // console.log(result);
+              console.log(result);
               temp.push(result);
             })
           }
           return temp
       }).then((result)=>{
           this.setState({ categories: result })
-          // console.log("3", this.state.categories);
+          console.log("3", this.state.categories);
 
       })
     })
@@ -76,7 +76,8 @@ class App extends React.Component {
 
 
   render(){
-      // console.log("Index", this.state.web3, this.state.instance)
+      console.log("Index", this.state.web3, this.state.instance,this.state.categories)
+
 
       return <Dashboard
         account={this.state.account}
