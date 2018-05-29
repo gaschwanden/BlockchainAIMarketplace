@@ -13,6 +13,10 @@ import MyModel from './my_models.js'
 import UserHome from './home.js'
 import ModelList from './model_list.js'
 import ModelDetail from './model_detail.js'
+import Alert from 'react-s-alert';
+import 'react-s-alert/dist/s-alert-default.css';
+import 'react-s-alert/dist/s-alert-css-effects/genie.css';
+
 
 class Dashboard extends React.Component{
     constructor(props){
@@ -74,7 +78,6 @@ class Dashboard extends React.Component{
           }
       ];
 
-      console.log("Constructor", routes[4].category)
       console.log("Instance",this.state.instance,)
 
     return(
@@ -104,6 +107,7 @@ class Dashboard extends React.Component{
           </Layout>
         </Layout>
         </Router>
+          <Alert stack={{limit: 3}} />
       </Layout>
     )
   }

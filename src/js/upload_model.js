@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 //import logo from './logo.svg';
 import './../css/ipfs.css';
 import web3 from './../utils/web3.js';
-
+import Alert from 'react-s-alert';
 import ipfs from '../utils/ipfs.js';
 import storehash from '../utils/storehash.js';
 import { Button, Table, Form, Input, Upload, Icon } from 'antd';
@@ -121,10 +121,20 @@ class UploadModel extends Component {
     // Function for handling upload the whole form to Blockchain
     handleSubmit = (e) => {
         e.preventDefault();
-        var category = e.target.category.value;
-        var username = e.target.username.value;
+        // var category = e.target.category.value;
+        // var username = e.target.username.value;
         var model = e.target.model.value;
         var ipfs = this.state.ipfsHash;
+        console.log(ipfs)
+        if (ipfs==null){
+            console.log("Fired")
+            Alert.info('Please upload your model', {
+                position: 'top-right',
+                effect: 'genie'
+            });
+
+            return false
+        }
 
         var instance;
         this.state.web3.eth.getAccounts((error, accounts) => {
@@ -135,15 +145,16 @@ class UploadModel extends Component {
             return instance.create_model(model, ipfs, 0, {from:accounts[0]})
         }).then((result)=>{
 
-            console.log(result)
+            console.log("Create model result", result)
             return instance.get_model_count.call()
 
         }).then((result)=>{
-            console.log(result)
+            console.log("Model count created", result)
 
             return instance.get_all_model_by_user(this.props.account, {from:this.state.account})
         }).then((result)=>{
             console.log(result)
+            console.log("Instance is the same", this.props.instance === instance)
         })
 
     };

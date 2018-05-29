@@ -1,4 +1,4 @@
-pragma solidity ^0.4.18;
+pragma solidity ^0.4.22;
 
 import './Model.sol';
 
@@ -10,21 +10,22 @@ contract MarketPlace {
         "Medical Diagnosis",
         "Models for disease diagnosis, such as cancer classification"];
 
-    uint  category_count = 4;
+    int category_count = 4;
 
     address owner;
 
     // Global data storage for models
-    uint public model_count;
+    int public model_count;
     mapping (address => User) users;
-    mapping (address => address[]) model_by_user;
-    mapping (uint => Model) models;
-    uint[] indexes; // List of Model IDs for enumeration
+    mapping (string => int[]) models_by_category;
+    mapping (address => int[]) model_by_user;
+    mapping (int => Model) models;
+    int[] indexes; // List of Model IDs for enumeration
 
-    mapping (address => uint[]) contestId;
+    mapping (address => int[]) contestId;
 
 
-    uint public best_submission_index;
+    int public best_submission_index;
     int256 public best_submission_accuracy = 0;
 
     constructor() public{
@@ -32,54 +33,40 @@ contract MarketPlace {
 
     }
 
-    uint storedData;
-
-    function set(uint x) public {
-      storedData = x;
-    }
-
-    function set_default(uint _num) public{
+    function set_default(int _num) public{
         category_count = _num;
         Categories[0] = "ImageData";
         Categories[1] = "MedicalData";
     }
 
-    function get() public view returns (uint) {
-      return storedData;
-    }
-
-    function test() public constant returns (string){
-      return "TEST";
-    }
-
-    function get_count() public view returns(uint){
+    function get_count() public view returns(int){
         return category_count;
     }
 
-    function get_category(uint _id) public view returns(string){
-        return Categories[_id];
+    function get_category(int _id) public view returns(string){
+        return Categories[uint(_id)];
     }
 
     function() public payable {}
 
     struct User {
       address user_address;
-      uint balance;
+      int balance;
     }
 
-    function create_model(string _description, bytes _ipfs, uint _parent)
+    function create_model(string _name, bytes _ipfs, int _parent)
     public returns (bool)
     {
-      uint id = model_count + 1;
-      Model new_model =new Model(msg.sender, id, _description, _ipfs, _parent);
-      model_by_user[msg.sender].push(new_model);
+      int id = model_count + 1;
+      Model new_model =new Model(msg.sender, id, _name, _ipfs, _parent);
+      model_by_user[msg.sender].push(id);
       models[id] = new_model;
       model_count = model_count + 1;
       indexes.push(id);
       return true;
     }
 
-    function set_accuracy(uint _id, int256 _accuarcy) public {
+    function set_accuracy(int _id, int256 _accuarcy) public {
         require(model_by_user[msg.sender].length != 0);
         models[_id].set_accuracy(msg.sender, _accuarcy);
         if (_accuarcy > best_submission_accuracy){
@@ -88,29 +75,48 @@ contract MarketPlace {
         }
     }
 
-
-    function get_model_desc(uint _id) public view returns(string){
-        return models[_id].get_name();
-    }
-
-    function get_model_accuracy(uint _id) public view returns(int256){
-        return models[_id].get_accuracy();
-    }
-
-    function get_model_by_id(uint _id) public view returns(address){
-        return models[_id];
-    }
-
-    function get_all_model_by_user(address _user) public view returns (address[]){
-      address[] storage model_list = model_by_user[_user];
+    function get_models_by_category(string _category) public view returns (int[]){
+      int[] storage model_list = models_by_category[_category];
       return model_list;
     }
 
-    function set_ipfshash( bytes _ipfs, uint _id) public{
+    function get_model_desc(int _id) public view returns(string){
+        return models[_id].get_name();
+    }
+
+    function get_model_accuracy(int _id) public view returns(int256){
+        return models[_id].get_accuracy();
+    }
+
+    function get_model_by_id(int _id) public view returns(address){
+        return models[_id];
+    }
+
+    function get_model_all(int _id) public view returns (
+      int id_,
+      address owner_,
+      string name_,
+      int256 accuracy_,
+      string category_,
+      int256 price_,
+      int parent_,
+      int[] children_,
+      bool genesis_,
+      bytes ipfs_,
+      int iterationLevel_){
+      return models[_id].get_model_all();
+    }
+
+    function get_all_model_by_user(address _user) public view returns (int[]){
+      int[] storage model_list = model_by_user[_user];
+      return model_list;
+    }
+
+    function set_ipfshash( bytes _ipfs, int _id) public{
         models[_id].set_ipfs(msg.sender, _ipfs);
     }
 
-    function get_model_count() public view returns(uint){
+    function get_model_count() public view returns(int){
         return model_count;
     }
 }

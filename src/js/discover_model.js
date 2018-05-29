@@ -3,6 +3,7 @@ import { List, Card } from 'antd';
 import '../css/layout.css';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import ModelDetails from './model_detail.js';
+import ModelList from "./model_list";
 
 class DiscoverModels extends React.Component{
     constructor(props){
@@ -43,27 +44,27 @@ class DiscoverModels extends React.Component{
           data.push(temp)
       }
 
-
-      console.log(category)
       return(
-      <div>
-          <List
-              grid={{ gutter: 16, column: 4 }}
-              dataSource={data}
-              renderItem={item => (
-                  <Link to={`/models/${item.get("title")}`}>
-                      <List.Item onClick={this.handleClick}
-                                 className="ToClick"
-                                 web3={this.state.web3}
-                                 instance={this.state.instance}>
-                          <Card title={item.get("title")}>{item.get("desc")}</Card>
-                      </List.Item>
-                  </Link>
-              )}
-          />
-          <ModelDetails/>
-      </div>
-    )
+          <div>
+              <List
+                  grid={{ gutter: 16, column: 4 }}
+                  dataSource={data}
+                  renderItem={item => (
+                      <Link to={`/models/${item.get("title")}`}>
+                          <List.Item onClick={this.handleClick}
+                                     className="ToClick"
+                                     web3={this.state.web3}
+                                     instance={this.state.instance}
+                                     account={this.props.account}>
+                              <Card title={item.get("title")}>{item.get("desc")}</Card>
+                          </List.Item>
+                      </Link>
+                  )}
+              />
+              <ModelDetails/>
+              <ModelList web3={this.state.web3} instance={this.state.instance}/>
+          </div>
+      )
   }
 }
 

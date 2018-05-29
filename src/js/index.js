@@ -11,7 +11,7 @@ import 'babel-polyfill';
 class App extends React.Component {
 
   constructor(props){
-    super(props)
+    super(props);
 
     this.state={
         web3: null,
@@ -47,7 +47,7 @@ class App extends React.Component {
 
     this.state.web3.eth.getAccounts((error, account) => {
       this.setState({account})
-      console.log(account);
+      // console.log(account);
       marketPlace.deployed().then((instance)=>{
         marketInstance = instance;
         this.setState({instance});
@@ -55,20 +55,20 @@ class App extends React.Component {
         return marketInstance.get_count.call()
       }).then((result)=>{
           var category_count = result.c[0];
-          console.log("2", result)
+          // console.log("2", result)
           return category_count
       }).then((result)=>{
           var temp = [];
           for (var i=0 ; i<result ; i++){
             marketInstance.get_category.call(i).then((result)=>{
-              console.log(result);
+              // console.log(result);
               temp.push(result);
             })
           }
           return temp
       }).then((result)=>{
           this.setState({ categories: result })
-          console.log("3", this.state.categories);
+          // console.log("3", this.state.categories);
 
       })
     })
@@ -76,7 +76,7 @@ class App extends React.Component {
 
 
   render(){
-      console.log("Index", this.state.web3, this.state.instance,this.state.categories)
+      // console.log("Index", this.state.web3, this.state.instance,this.state.categories)
 
 
       return <Dashboard

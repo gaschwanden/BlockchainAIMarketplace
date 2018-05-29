@@ -27,7 +27,7 @@ class ModelDetail extends React.Component{
     }
 
     static getDerivedStateFromProps(nextProps, prevState){
-        if (nextProps.web3 !== prevState.web3 || nextProps.instance !== prevState.instance) {
+        if (nextProps !== prevState) {
             return {
                 web3: nextProps.web3,
                 instance: nextProps.instance,
@@ -36,6 +36,11 @@ class ModelDetail extends React.Component{
         // Return null to indicate no change to state.
         return null;
     }
+
+    downloadModel = (e) =>{
+        console.log("Clicked on download model from IPFS")
+    }
+
 
     render(){
 
@@ -81,17 +86,24 @@ class ModelDetail extends React.Component{
         }, {
             key: '8',
             name: 'IPFS Hash Address',
-            value: <Button type="primary" icon="download" size={size}>Download From IPFS</Button>
+            value: <Button type="primary" icon="download" >Download From IPFS</Button>
         }, {
             key: '9',
+            name: 'Is Genesis Model',
+            value: this.props.store
+        }, {
+            key: '10',
             name: 'Parent Model',
-            value: <Button/>
+            value: this.props.store === true
+                ? <div><Button type="primary" disabled>Parent Model</Button></div>
+                : <div><Button type="primary">Parent Model</Button></div>
         }];
 
 
         return(
             <div>
                 <Table columns={columns} dataSource={data} />
+                <Button/>
             </div>
         )
     }
