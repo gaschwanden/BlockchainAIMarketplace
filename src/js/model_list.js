@@ -19,62 +19,56 @@ class ModelList extends React.Component{
             modelIdList: [], // List of Int, model ids
             modelList: [] // List of Model details
         };
-    }
-
-    componentDidMount(){
-
 
         console.log("Model list instantiateContract");
+        getWeb3.then(results => {
+            this.setState({
+                web3: results.web3
+            });
 
-        var instance;
-        console.log("Model list web3", this.props.web3);
-        this.props.web3.eth.getAccounts((error, accounts) => {
-            instance = this.state.instance;
-            console.log("Model List instance", instance, accounts)
-            this.setState({account: accounts[0]});
-            return accounts[0];
-        }).then((result)=>{
-            console.log(result[0]);
-            return instance.get_all_model_by_user.call(result[0], {from : result[0]})
-        }).then((result)=>{
+            var instance;
+            results.web3.eth.getAccounts((error, accounts) => {
+                instance = this.state.instance;
+                console.log("Model List instance", instance, accounts)
+                this.setState({account: accounts[0]});
+                return accounts[0];
+            }).then((result) => {
+                console.log(result[0]);
+                return instance.get_all_model_by_user.call(result[0], {from: result[0]})
+            }).then((result) => {
 
-            console.log("User model list", result)
-            // var modelIdList = this.props.modelIdList;
-            var modelIdList = result;
+                console.log("User model list", result)
+                var modelIdList = result;
 
-            var modelList = [];
-            for (var i=0; i< modelIdList.length; i++){
-                console.log(modelIdList[i]);
-                var index = 0;
-                instance.get_model_all.call(modelIdList[i].c[0]).then((result)=>{
-                    var map = {};
-                    map["key"]          = index+1;
-                    map["id"]           = result[0].c[0];
-                    map["owner"]        = result[1];
-                    map["name"]         = result[2];
-                    map["accuracy"]     = result[3].c[0];
-                    map["category"]     = result[4];
-                    map["price"]        = result[5].c[0];
-                    map["parent"]       = result[6].c[0];
-                    map["children"]     = result[7];
-                    map["genesis"]      = result[8];
-                    map["ipfs"]         = result[9];
-                    map["level"]        = result[10].c[0];
-                    index += 1;
-                    modelList.push(map);
-
-                    console.log("Model List Map", map);
-                })
-            }
-
-            return modelList
-        }).then((result)=>{
-
-            console.log("Model List", result);
-            this.setState({modelList:result});
-        })
-
-    }
+                var modelList = [];
+                for (var i = 0; i < modelIdList.length; i++) {
+                    console.log(modelIdList[i]);
+                    var index = 0;
+                    instance.get_model_all.call(modelIdList[i].c[0]).then((result) => {
+                        var map = {};
+                        map["key"] = index + 1;
+                        map["id"] = result[0].c[0];
+                        map["owner"] = result[1];
+                        map["name"] = result[2];
+                        map["accuracy"] = result[3].c[0];
+                        map["category"] = result[4];
+                        map["price"] = result[5].c[0];
+                        map["parent"] = result[6].c[0];
+                        map["children"] = result[7];
+                        map["genesis"] = result[8];
+                        map["ipfs"] = result[9];
+                        map["level"] = result[10].c[0];
+                        index += 1;
+                        modelList.push(map);
+                        this.setState(previousState => ({
+                            modelList: [...previousState.modelList, map]
+                        }));
+                        console.log("Model List Map", map);
+                    })
+                }
+            }) // End of processing model data
+        }) // End of get3 promise
+    }// End of constructor
 
     static getDerivedStateFromProps(nextProps, prevState){
         if (nextProps !== prevState) {
@@ -83,27 +77,17 @@ class ModelList extends React.Component{
                 instance: nextProps.instance,
             };
         }
-        // Return null to indicate no change to state.
         return null;
     }
+
 
     onChange = (pagination, filters, sorter) => {
         console.log('params', pagination, filters, sorter);
     }
 
-    // TODO render model list
+
     render(){
         var data = this.state.modelList;
-        console.log(data);
-        console.log(data.length);
-
-        console.log(data.values());
-        console.log(data.keys());
-        console.log(data.entries());
-
-        for (var key in data){
-            console.log("Render data", key, data[key])
-        }
 
         const columns = [{
             title: 'ID',
@@ -113,7 +97,7 @@ class ModelList extends React.Component{
             title: 'Name',
             dataIndex: 'name',
             defaultSortOrder: 'descend',
-            sorter: (a, b) => a.age - b.age,
+            sorter: (a, b) => a.name - b.name,
         }, {
             title: 'Owner',
             dataIndex: 'owner',
@@ -139,11 +123,11 @@ class ModelList extends React.Component{
 
         return(
             <div>
-                <Table columns={columns} dataSource={data}/>
-                {/*{ data === null*/}
-                    {/*? <Table columns={columns} dataSource={data}/>*/}
-                    {/*: <Button> Click to upload a new model </Button>*/}
-                {/*}*/}
+                <Table columns={columns} dataSource={data} onChange={this.onChange}/>
+                { data === null
+                    ? <Button> Click to upload a new model </Button>
+                    : <div/>
+                }
             </div>
         )
     }

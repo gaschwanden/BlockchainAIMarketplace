@@ -42,6 +42,7 @@ class ModelDetail extends React.Component{
     }
 
 
+    // TODO render model details and buttons
     render(){
 
         const columns = [{
@@ -98,6 +99,8 @@ class ModelDetail extends React.Component{
                 ? <div><Button type="primary" disabled>Parent Model</Button></div>
                 : <div><Button type="primary">Parent Model</Button></div>
         }];
+
+        console.log("Model detail", data)
 
 
         return(
