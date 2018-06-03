@@ -1,30 +1,47 @@
 pragma solidity ^0.4.22;
 
 contract Model {
-    address public owner;
-    bytes public ipfs_address;
-    int public id;
-    string public name;
-    string public description;
-    int public parent;
-    int[] children;
-    bool genesis;
-    int256 public accuracy;
-    string category;
-    int iterationLevel;
-    int256 public price;
-    address factory;
+    address public owner;       // Model creator
+    bytes public ipfs_address;  // IPFS storage address of current model
+    int public id;              // Unique identifier of models
+    string public name;         // Model name
+    string public description;  // Model description
+    int public parent;          // Parent model ID, 0 if current model is Genesis
+    int[] public children;      // List of subordinate model IDs
+    bool public genesis;        // Boolean if genesis model
+    int256 public accuracy;     // Float type model accuracy
+    string public category;     // Model belonged category
+    int public iterationLevel;  // Level of current model in its tree
+    int public price;        // Model price set by the creator
+    address public factory;
 
 
     // Constructor
     constructor(
-        address _owner, int _id, string _name, bytes _ipfs, int _parent)
-        public {
-        owner = _owner;
-        factory = msg.sender;
-        id = _id;
-        name = _name;
-        ipfs_address = _ipfs;
+        address _owner,
+        int _id,
+        string _name,
+        string _description,
+        bytes _ipfs,
+        int _parent,
+        int256 _accuracy,
+        string _category,
+        int _iterationLevel,
+        int _price
+    )
+        public
+    {
+        owner          = _owner;
+        factory        = msg.sender;
+        id             = _id;
+        name           = _name;
+        description    = _description;
+        ipfs_address   = _ipfs;
+        parent         = _parent;
+        accuracy       = _accuracy;
+        category       = _category;
+        iterationLevel = _iterationLevel;
+        price          = _price;
 
         // Set parent and bool type genesis model
         if(int(_parent) == 0){
@@ -71,20 +88,42 @@ contract Model {
         return name;
     }
 
-    function get_model_all() public constant returns(
-        int id_,
-        address owner_,
-        string name_,
-        int256 accuracy_,
-        string category_,
-        int256 price_,
-        int parent_,
-        int[] children_,
-        bool genesis_,
-        bytes ipfs_,
-        int iterationLevel_){
+    function get_iterationLevel() public view returns (int) {
+        return iterationLevel;
+    }
 
-        return (id, owner, name, accuracy, category, price, parent, children, genesis, ipfs_address, iterationLevel);
+    function get_genesis() public view returns (bool){
+        return genesis;
+    }
+
+    function get_model_all() public constant
+        returns(
+            int id_,
+            address owner_,
+            string name_,
+            int256 accuracy_,
+            string category_,
+            int price_,
+            int parent_,
+            bool genesis_,
+            bytes ipfs_,
+            int iterationLevel_,
+            string description_
+        )
+    {
+        return (
+            id,
+            owner,
+            name,
+            accuracy,
+            category,
+            price,
+            parent,
+            genesis,
+            ipfs_address,
+            iterationLevel,
+            description
+        );
     }
 
     function kill() public {

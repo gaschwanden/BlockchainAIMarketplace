@@ -38,7 +38,6 @@ class App extends React.Component {
 
 
   instantiateContract(){
-    console.log("instantiateContract");
 
     var contract = require('truffle-contract');
     var marketPlace = contract(MarketPlace);

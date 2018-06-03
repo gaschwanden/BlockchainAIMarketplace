@@ -1,0 +1,18 @@
+.App {
+    vertical-align: middle;
+    text-align: center;
+    justify-content: center;
+    position: relative;
+}
+
+.Table {
+    align-self: center;
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    border: 1px solid #d9d9d9;
+    border-radius: 6px;
+    padding: 24px;
+    background: #fbfbfb;
+
+}

@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
-//import logo from './logo.svg';
 import './../css/ipfs.css';
 import web3 from './../utils/web3.js';
 import Alert from 'react-s-alert';
 import ipfs from '../utils/ipfs.js';
 import storehash from '../utils/storehash.js';
-import { Button, Table, Form, Input, Upload, Icon } from 'antd';
+import { Button, Table, Form, Input, Divider, Icon, InputNumber,message } from 'antd';
 const FormItem = Form.Item;
-
 
 
 class UploadModel extends Component {
@@ -16,6 +14,17 @@ class UploadModel extends Component {
         this.state = {
             web3: null,
             instance: null,
+
+            // Model part
+            category:'Image Recognition',
+            author:' 0x2932b7A2355D6fecc4b5c0B6BD44cC31df247a2e',
+            account: this.props.data,
+            description: "",
+            parent: -1,
+            price: 0,
+            accuracy: 0,
+
+            // IPFS part
             ipfsHash:null,
             buffer:'',
             ethAddress:'',
@@ -23,9 +32,6 @@ class UploadModel extends Component {
             transactionHash:'',
             gasUsed:'',
             txReceipt: '',
-            category:'Test Category',
-            author:'Test Author',
-            account: this.props.data,
         };
     }
 
@@ -121,12 +127,20 @@ class UploadModel extends Component {
     // Function for handling upload the whole form to Blockchain
     handleSubmit = (e) => {
         e.preventDefault();
-        // var category = e.target.category.value;
-        // var username = e.target.username.value;
-        var model = e.target.model.value;
+        var category = e.target.category.value;
+        var username = e.target.username.value;
+        var modelName = e.target.modelName.value;
+        var description = e.target.modelDescription.value;
+        var price = e.target.price.value;
         var ipfs = this.state.ipfsHash;
+        var parent = -1;
+
+        if (this.props.parent){
+            parent = this.props.parent
+        }
+
         console.log(ipfs)
-        if (ipfs==null){
+        if (ipfs===null){
             console.log("Fired")
             Alert.info('Please upload your model', {
                 position: 'top-right',
@@ -139,10 +153,20 @@ class UploadModel extends Component {
         var instance;
         this.state.web3.eth.getAccounts((error, accounts) => {
             instance = this.state.instance;
-            console.log(instance)
             this.setState({account:accounts[0]});
 
-            return instance.create_model(model, ipfs, 0, {from:accounts[0]})
+            var accuracy = Math.random()*0.5 + 0.5;
+            console.log("Accuracy", accuracy)
+            var iterationLevel;
+
+            if (parent===-1){
+                iterationLevel = 1
+            }else{
+                iterationLevel = instance.get_iterationLevel(parent, {from:accounts[0]})
+            }
+
+            return instance.create_model(
+                modelName, parent, description, ipfs, accuracy, category, iterationLevel, price, {from:accounts[0]})
         }).then((result)=>{
 
             console.log("Create model result", result)
@@ -151,10 +175,14 @@ class UploadModel extends Component {
         }).then((result)=>{
             console.log("Model count created", result)
 
-            return instance.get_all_model_by_user(this.props.account, {from:this.state.account})
+            return instance.get_all_models_by_user(this.props.account, {from:this.state.account})
         }).then((result)=>{
             console.log(result)
             console.log("Instance is the same", this.props.instance === instance)
+            message.success('Model Upload success!');
+        }).catch((err)=>{
+            console.log(err)
+            message.error('An error occured when uploading model!');
         })
 
     };
@@ -197,8 +225,10 @@ class UploadModel extends Component {
 
       return (
         <div className="App">
-            <Form onSubmit={this.handleSubmit}>
-                <div className="Form">
+            <Form onSubmit={this.handleSubmit} className="Form">
+                <Divider><h2> Upload Model </h2></Divider>
+
+                <div className="Formitems">
                     <FormItem label="Name">
                         <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
                                defaultValue={this.state.author}
@@ -217,14 +247,32 @@ class UploadModel extends Component {
                         <Input prefix={<Icon type="file" style={{ color: 'rgba(0,0,0,.25)' }} />}
                                placeholder="Input your model name"
                                size="large"
-                               name="model"
+                               name="modelName"
                                required="true"
                         />
                     </FormItem>
+                    <FormItem label="Model Description">
+                        <Input prefix={<Icon type="file" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                               placeholder="Input your model description"
+                               size="large"
+                               name="modelDescription"
+                               required="true"
+                               rows={4}
+                        />
+                    </FormItem>
+                    <FormItem label="Model Price (Set your relative model price 1-100)">
+                        <InputNumber prefix={<Icon type="file" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                               placeholder="Price"
+                               size="large"
+                               name="price"
+                               required="true"
+                               min={1}
+                               max={10}
+                        />
+                    </FormItem>
                 </div>
-                <hr />
                 <div>
-                    <h2> Choose file to send to IPFS </h2>
+                    <Divider><h3> Choose file to send to IPFS </h3></Divider>
 
                       <Form onSubmit={this.onSubmit}>
                           <div>
@@ -241,7 +289,7 @@ class UploadModel extends Component {
                           </div>
 
                       </Form>
-                      <hr/>
+                    <Divider/>
                         <Button className="getReceipt" onClick = {this.onClick}> Get Transaction Receipt </Button>
                         <br />
                         <Table dataSource={dataSource} columns={columns} />

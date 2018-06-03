@@ -21,11 +21,11 @@ class TopBar extends React.Component{
           </div>
           <div style={{float:'right', paddingRight:'1%'}}>
             {
-              this.props.account != '0x0' ?
+              this.props.account !== '0x0' || this.props.account !== "" ?
               <p style={{color:'white'}}>
                 {"Welcome, " + this.props.account}
               </p>
-              : <Button>Please Login</Button>
+              : <Button>Please Login use MetaMask</Button>
             }
           </div>
         </Menu>

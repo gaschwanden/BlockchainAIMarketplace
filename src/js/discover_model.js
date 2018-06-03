@@ -29,8 +29,8 @@ class DiscoverModels extends React.Component{
         return null;
     }
 
-    handleClick() {
-        console.log("Clicked", this.state.web3, this.state.instance)
+    handleClick(e) {
+        console.log("Clicked", e)
 
     }
 
@@ -47,10 +47,10 @@ class DiscoverModels extends React.Component{
       return(
           <div>
               <List
-                  grid={{ gutter: 16, column: 4 }}
+                  grid={{ gutter: 18, xs: 1, sm: 2, md: 4, lg: 4, xl: 6, xxl: 3}}
                   dataSource={data}
                   renderItem={item => (
-                      <Link to={`/models/${item.get("title")}`}>
+                      <Link to={`/models/category/${item.get("title")}`}>
                           <List.Item onClick={this.handleClick}
                                      className="ToClick"
                                      web3={this.state.web3}
@@ -61,8 +61,7 @@ class DiscoverModels extends React.Component{
                       </Link>
                   )}
               />
-              <ModelDetails/>
-              <ModelList web3={this.state.web3} instance={this.state.instance}/>
+              {/*<ModelDetails/>*/}
           </div>
       )
   }

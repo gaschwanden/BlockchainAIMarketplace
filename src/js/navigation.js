@@ -39,13 +39,18 @@ class Navigation extends React.Component{
 
           <SubMenu key="sub2" title={<span><Icon type="database" />Model</span>}>
             <Menu.Item key="3">
-              <Link to="/mymodel">
+              <Link to={`/models/user/${this.props.account}`}>
                 <Icon type="file" />My Models
               </Link>
             </Menu.Item>
             <Menu.Item key="4">
               <Link to="/models">
                 <Icon type="appstore" />Discover Models
+              </Link>
+            </Menu.Item>
+            <Menu.Item key="5">
+              <Link to="/mymodel">
+                <Icon type="file" />Upload model
               </Link>
             </Menu.Item>
           </SubMenu>

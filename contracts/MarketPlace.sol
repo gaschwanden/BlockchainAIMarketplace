@@ -18,8 +18,10 @@ contract MarketPlace {
     int public model_count;
     mapping (address => User) users;
     mapping (string => int[]) models_by_category;
-    mapping (address => int[]) model_by_user;
+    mapping (address => int[]) models_by_user;
     mapping (int => Model) models;
+    mapping (int => int[]) models_by_contest;
+    mapping (int => int[]) children_models;
     int[] indexes; // List of Model IDs for enumeration
 
     mapping (address => int[]) contestId;
@@ -54,20 +56,42 @@ contract MarketPlace {
       int balance;
     }
 
-    function create_model(string _name, bytes _ipfs, int _parent)
-    public returns (bool)
+    function create_model(
+        string _name,
+        int _parent,
+        string _description,
+        bytes _ipfs,
+        int256 _accuracy,
+        string _category,
+        int _iterationLevel,
+        int _price
+    )
+        public
+        returns (bool)
     {
-      int id = model_count + 1;
-      Model new_model =new Model(msg.sender, id, _name, _ipfs, _parent);
-      model_by_user[msg.sender].push(id);
-      models[id] = new_model;
-      model_count = model_count + 1;
-      indexes.push(id);
-      return true;
+        // Calculate current model ID
+        int id = model_count + 1;
+        // Create new Model
+        Model new_model = new Model(
+            msg.sender, id, _name, _description, _ipfs, _parent, _accuracy,
+            _category, _iterationLevel, _price
+        );
+        // Add new model to global variables
+        models_by_user[msg.sender].push(id);
+        models_by_category[_category].push(id);
+        models[id] = new_model;
+        indexes.push(id);
+        model_count = model_count + 1;
+
+        // Add current model to parent model's children
+        if ( _parent != -1){
+            children_models[_parent].push(id);
+        }
+        return true;
     }
 
     function set_accuracy(int _id, int256 _accuarcy) public {
-        require(model_by_user[msg.sender].length != 0);
+        require(models_by_user[msg.sender].length != 0);
         models[_id].set_accuracy(msg.sender, _accuarcy);
         if (_accuarcy > best_submission_accuracy){
             best_submission_accuracy = _accuarcy;
@@ -98,17 +122,18 @@ contract MarketPlace {
       string name_,
       int256 accuracy_,
       string category_,
-      int256 price_,
+      int price_,
       int parent_,
-      int[] children_,
       bool genesis_,
       bytes ipfs_,
-      int iterationLevel_){
+      int iterationLevel_,
+      string description_)
+    {
       return models[_id].get_model_all();
     }
 
-    function get_all_model_by_user(address _user) public view returns (int[]){
-      int[] storage model_list = model_by_user[_user];
+    function get_all_models_by_user(address _user) public view returns (int[]){
+      int[] storage model_list = models_by_user[_user];
       return model_list;
     }
 
@@ -119,4 +144,24 @@ contract MarketPlace {
     function get_model_count() public view returns(int){
         return model_count;
     }
+
+    function get_models_by_parent(int _id) public view returns (int[]){
+        return children_models[_id];
+    }
+
+    function append_child(int _parent, int _child) public returns (bool){
+        models[_parent].append_child(_child);
+        return true;
+    }
+
+
+    function get_iterationLevel(int _id) public view returns (int){
+        return models[_id].get_iterationLevel();
+    }
+
+    // TODO send reward function
+
+    // TODO contest functions
+
+
 }
