@@ -27,7 +27,7 @@ class App extends React.Component {
       this.setState({
         web3: results.web3
       });
-
+        console.log(results.web3)
       // Instantiate contract once web3 provided.
       this.instantiateContract()
     }).catch(() => {
@@ -50,7 +50,7 @@ class App extends React.Component {
       marketPlace.deployed().then((instance)=>{
         marketInstance = instance;
         this.setState({instance});
-
+        console.log(instance)
         return marketInstance.get_count.call()
       }).then((result)=>{
           var category_count = result.c[0];

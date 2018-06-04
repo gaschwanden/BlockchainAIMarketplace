@@ -4,7 +4,7 @@ import React from 'react'
 import './../css/layout.css'
 import TopBar from './header.js'
 import Navigation from './navigation.js'
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route , Switch} from "react-router-dom";
 import DiscoverContests from './discover_contest.js'
 import DiscoverModels from './discover_model.js'
 import MyContests from './my_contests.js'
@@ -12,6 +12,7 @@ import MyModel from './my_models.js'
 import UserHome from './home.js'
 import ModelList from './model_list.js'
 import ModelDetail from './model_detail.js'
+import UploadModel from './upload_model'
 import Alert from 'react-s-alert';
 import 'react-s-alert/dist/s-alert-default.css';
 import 'react-s-alert/dist/s-alert-css-effects/genie.css';
@@ -77,39 +78,46 @@ class Dashboard extends React.Component{
               path: "/model/:modelID",
               component: ModelDetail,
               exact: true
+          },
+          {
+              path: "/upload/:category/:parentID",
+              component: UploadModel,
+              exact: true
           }
       ];
 
     return(
-      <Layout className="OutLayout">
-        <TopBar account={this.props.account}/>
         <Router>
+
+        <Layout className="OutLayout">
+        <TopBar account={this.props.account}/>
         <Layout>
           <Navigation account={this.props.account}/>
           <Layout style={{ padding: '0 0 24px 24px',  }}>
-            <Content style={{ background: '#fff', padding: 24, margin: 0, minHeight: 400 ,overflow: 'auto'}}>
-              {routes.map((route, index) => (
-                  <Route
-                    key={index}
-                    path={route.path}
-                    exact={route.exact}
-                    render={(props) =>
-                        <route.component
-                            account={this.props.account}
-                            data={route.category}
-                            web3={this.state.web3}
-                            instance={this.state.instance}
-                            {...props}/>}
-                  />
-              ))}
 
-
+              <Content style={{ background: '#fff', padding: 24, margin: 0, minHeight: 400 ,overflow: 'auto'}}>
+                      {routes.map((route, index) => (
+                          <Route
+                            key={index}
+                            path={route.path}
+                            exact={route.exact}
+                            render={(props) =>
+                                <route.component
+                                    account={this.props.account}
+                                    data={route.category}
+                                    web3={this.state.web3}
+                                    instance={this.state.instance}
+                                    {...props}/>}
+                          />
+                      ))}
             </Content>
+
           </Layout>
         </Layout>
-        </Router>
           <Alert stack={{limit: 3}} />
-      </Layout>
+        </Layout>
+        </Router>
+
     )
   }
 }

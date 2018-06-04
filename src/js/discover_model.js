@@ -61,7 +61,6 @@ class DiscoverModels extends React.Component{
                       </Link>
                   )}
               />
-              {/*<ModelDetails/>*/}
           </div>
       )
   }

@@ -28,7 +28,7 @@ contract MarketPlace {
 
 
     int public best_submission_index;
-    int256 public best_submission_accuracy = 0;
+    int public best_submission_accuracy = 0;
 
     constructor() public{
       owner = msg.sender;
@@ -61,7 +61,7 @@ contract MarketPlace {
         int _parent,
         string _description,
         bytes _ipfs,
-        int256 _accuracy,
+        int _accuracy,
         string _category,
         int _iterationLevel,
         int _price
@@ -90,7 +90,7 @@ contract MarketPlace {
         return true;
     }
 
-    function set_accuracy(int _id, int256 _accuarcy) public {
+    function set_accuracy(int _id, int _accuarcy) public {
         require(models_by_user[msg.sender].length != 0);
         models[_id].set_accuracy(msg.sender, _accuarcy);
         if (_accuarcy > best_submission_accuracy){
@@ -108,7 +108,7 @@ contract MarketPlace {
         return models[_id].get_name();
     }
 
-    function get_model_accuracy(int _id) public view returns(int256){
+    function get_model_accuracy(int _id) public view returns(int){
         return models[_id].get_accuracy();
     }
 
@@ -120,7 +120,7 @@ contract MarketPlace {
       int id_,
       address owner_,
       string name_,
-      int256 accuracy_,
+      int accuracy_,
       string category_,
       int price_,
       int parent_,
@@ -154,8 +154,10 @@ contract MarketPlace {
         return true;
     }
 
-
     function get_iterationLevel(int _id) public view returns (int){
+        if (_id == 0){
+            return 1;
+        }
         return models[_id].get_iterationLevel();
     }
 

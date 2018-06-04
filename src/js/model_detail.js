@@ -28,13 +28,13 @@ class ModelDetail extends React.Component{
             childModels: null
         };
 
-
+        this.getModelData(this.props);
 
     }
 
-    componentWillMount() {
-        console.log("Model detail passed props", this.props);
-        const {match: {params}} = this.props;
+    getModelData = (prop) => {
+        console.log("Model detail passed props", prop);
+        const {match: {params}} = prop;
         console.log("Params", params, params.modelID);
         this.setState({params: params});
 
@@ -45,12 +45,12 @@ class ModelDetail extends React.Component{
 
             var instance;
             results.web3.eth.getAccounts((error, accounts) => {
-                instance = this.props.instance;
+                instance = prop.instance;
                 console.log("Model detail instance", instance, accounts)
                 this.setState({account: accounts[0]});
                 return accounts[0];
             }).then((result) => {
-                var map            = {};
+                var map = {};
                 instance.get_model_all.call(params.modelID).then((result) => {
                     map["id"]          = result[0].c[0];
                     map["owner"]       = result[1];
@@ -67,26 +67,67 @@ class ModelDetail extends React.Component{
                     this.setState({data:map});
 
                     console.log("Model detail Map", map);
-                })
+                });
                 return map;
             }).then((result)=>{
                 instance.get_models_by_parent.call(params.modelID).then((result) =>{
-                    console.log("Get children", result)
+                    var array = [];
+                    for( var i=0; i<result.length;i++){
+                        let temp = result[i].c[0];
+                        console.log("Get children", temp)
+
+                        array.push(temp)
+                    }
+                    this.setState({childModels:array})
+
                 })
-                this.setState({childModels:result})
             }) // End of processing model data
         }) // End of get3 promise
+    };
+
+    componentWillReceiveProps(nextProps) {
+        console.log('componentWillReceiveProps', nextProps);
+        if (this.props !== nextProps) {
+            console.log("Not  Sameeeeeeeeeeeeeeeeeeeeeeeeee")
+            this.getModelData(nextProps);
+        }
     }
 
+    openParentModel = () => {
+        console.log("Open parent")
+        this.props.history.push({
+            pathname: `/model/${this.state.data['parent']}`,
+            state: {
+                account: this.state.account,
+                parent: this.state.data['parent'],
+            }
+        });
+    };
 
+    openChildModels = () =>{
+        console.log("Open child")
+        this.props.history.push({
+            pathname: `/parent/${this.state.data['id']}`,
+            state: {
+                account: this.state.account,
+            }
+        });
+    };
 
-    downloadModel = (e) =>{
-        console.log("Clicked on download model from IPFS")
+    onClickDownload = () =>{
+        window.open(`https://gateway.ipfs.io/ipfs/${this.state.data['ipfs']}`)
+    };
+
+    uploadModel = () => {
+        this.props.history.push({
+            pathname: `/upload/${this.state.data['category']}/${this.state.data['id']}`,
+            state: {
+                account: this.state.account,
+            }
+        });
     }
-
 
     render(){
-
         const columns = [{
             title: 'Model Attribute',
             dataIndex: 'name',
@@ -96,8 +137,15 @@ class ModelDetail extends React.Component{
             dataIndex: 'value',
             key: 'value',
         }];
+
         console.log("Model detail render", this.state.data)
-        console.log("Child models", this.state.childModels)
+
+        var children = [];
+        if (this.state.childModels){
+            console.log("Child models", this.state.childModels)
+            children = this.state.childModels
+        }
+
         var data;
         var name;
         if (!this.state.data){
@@ -118,7 +166,7 @@ class ModelDetail extends React.Component{
             }, {
                 key: '4',
                 name: 'Accuracy',
-                value: this.state.data['accuracy']
+                value: this.state.data['accuracy'] + "%"
             }, {
                 key: '5',
                 name: 'Price',
@@ -134,15 +182,24 @@ class ModelDetail extends React.Component{
                     :
                     <div>
                         <p>{this.state.data['parent']}</p>
-                        <Button type="primary">Parent Model</Button>
+                        <Button type="primary" onClick={this.openParentModel.bind(this)}>
+                            Parent Model
+                        </Button>
                     </div>
             }, {
                 key: '7',
                 name: 'Child Models',
-                value:
+                value: children.length === 0
+                    ?
                     <div>
-                        <p></p>
-                        <Button type="primary">Child Models</Button>
+                        This model doesn't have child models.
+                    </div>
+                    :
+                    <div>
+                        <p>{children}</p>
+                        <Button type="primary" onClick={this.openChildModels.bind(this)}>
+                            Child Models
+                        </Button>
                     </div>
             }, {
                 key: '8',
@@ -150,7 +207,9 @@ class ModelDetail extends React.Component{
                 value:
                     <div>
                         <p>{this.state.data['ipfs']}</p>
-                        <Button type="primary" icon="download" >Download From IPFS</Button>
+                        <Button type="primary" icon="download" onClick={this.onClickDownload.bind(this)}>
+                            Download From IPFS
+                        </Button>
                     </div>
             }, {
                 key: '9',
@@ -167,10 +226,12 @@ class ModelDetail extends React.Component{
 
         return(
             <div className="App">
-                <h2>{name} Model Details</h2>
+                <h2>{name} Model Details </h2>
                 <Table columns={columns} dataSource={data} className="Table" />
                 <br/>
-                <Button type="primary" icon="upload" > Improve this model </Button>
+                <Button type="primary" icon="upload" onClick={this.uploadModel.bind(this)} >
+                    Improve this model
+                </Button>
             </div>
         )
     }

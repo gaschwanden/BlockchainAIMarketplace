@@ -25,7 +25,12 @@ class ModelList extends React.Component{
             data: null,
         };
 
-        const { match: { params } } = this.props;
+        this.getModelList(this.props)
+
+    }// End of constructor
+
+    getModelList = (prop) => {
+        const { match: { params } } = prop;
         console.log("Params", params);
         this.setState({params: params});
 
@@ -36,7 +41,7 @@ class ModelList extends React.Component{
 
             var instance;
             results.web3.eth.getAccounts((error, accounts) => {
-                instance = this.props.instance;
+                instance = prop.instance;
                 console.log("Model List instance", instance, accounts)
                 this.setState({account: accounts[0]});
                 return accounts[0];
@@ -68,7 +73,7 @@ class ModelList extends React.Component{
                         map["id"]          = result[0].c[0];
                         map["owner"]       = result[1];
                         map["name"]        = result[2];
-                        map["accuracy"]    = result[3].c[0];
+                        map["accuracy"]    = result[3].c[0] + "%";
                         map["category"]    = result[4];
                         map["price"]       = result[5].c[0];
                         map["parent"]      = result[6].c[0];
@@ -87,54 +92,35 @@ class ModelList extends React.Component{
                 }
             }) // End of processing model data
         }) // End of get3 promise
+    };
 
-    }// End of constructor
 
-    static getDerivedStateFromProps(nextProps, prevState){
-        if (nextProps!== prevState) {
-            return {
-                web3: nextProps.web3,
-                instance: nextProps.instance,
-            };
+    componentWillReceiveProps(nextProps) {
+        console.log('componentWillReceiveProps', nextProps);
+        if (this.props !== nextProps) {
+            console.log("Not  Sameeeeeeeeeeeeeeeeeeeeeeeeee")
+            this.getModelData(nextProps);
         }
-        // Return null to indicate no change to state.
-        return null;
     }
+
 
     onChange = (pagination, filters, sorter) => {
         console.log('params', pagination, filters, sorter);
     };
 
-    onClickRow = (record) =>{
-
-        console.log("Clicked on row", record, record['id']);
-        this.props.history.push({
-            pathname: `/model/${record['id']}`,
-            state: {
-                category: this.state.category,
-                account: this.state.account,
-                parent: -1,
-                data: record,
-            }
-        });
-
-    }
-
 
     onClickButton = () =>{
+        const { match: { params } } = this.props;
         this.props.history.push({
-            pathname: '/mymodel',
+            pathname: `/upload/${params.paramKey}/0`,
             state: {
-                category: this.state.category,
-                account: this.state.account,
-                parent: -1,
+                account: this.props.account,
             }
         });
     };
 
     render(){
         var data = this.state.modelList;
-        console.log(this.state.params);
 
         const columns = [{
             title: 'ID',
@@ -160,7 +146,7 @@ class ModelList extends React.Component{
         }, {
             title: 'Accuracy',
             dataIndex: 'accuracy',
-            sorter: (a, b) => a.accuracy - b.accuracy
+            sorter: (a, b) => parseFloat(a.accuracy) - parseFloat(b.accuracy)
         }, {
             title: 'Price',
             dataIndex: 'price',
@@ -202,7 +188,6 @@ class ModelList extends React.Component{
                                 this.props.history.push({
                                     pathname: `/model/${data['id']}`,
                                     state: {
-                                        category: this.state.category,
                                         account: this.state.account,
                                         parent: -1,
                                     }

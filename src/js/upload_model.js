@@ -17,8 +17,7 @@ class UploadModel extends Component {
 
             // Model part
             category:'Image Recognition',
-            author:' 0x2932b7A2355D6fecc4b5c0B6BD44cC31df247a2e',
-            account: this.props.data,
+            account: this.props.account,
             description: "",
             parent: -1,
             price: 0,
@@ -127,19 +126,16 @@ class UploadModel extends Component {
     // Function for handling upload the whole form to Blockchain
     handleSubmit = (e) => {
         e.preventDefault();
+        const { match: { params } } = this.props;
+
         var category = e.target.category.value;
-        var username = e.target.username.value;
+        var author = this.props.account;
         var modelName = e.target.modelName.value;
         var description = e.target.modelDescription.value;
         var price = e.target.price.value;
         var ipfs = this.state.ipfsHash;
-        var parent = -1;
+        var parent = params.parentID;
 
-        if (this.props.parent){
-            parent = this.props.parent
-        }
-
-        console.log(ipfs)
         if (ipfs===null){
             console.log("Fired")
             Alert.info('Please upload your model', {
@@ -150,23 +146,20 @@ class UploadModel extends Component {
             return false
         }
 
-        var instance;
-        this.state.web3.eth.getAccounts((error, accounts) => {
-            instance = this.state.instance;
-            this.setState({account:accounts[0]});
+        let instance = this.props.instance;
+        console.log(this.props.instance, parent)
+        instance.get_iterationLevel.call(parseInt(parent), {from: this.props.account[0]}).then((result) =>{
 
-            var accuracy = Math.random()*0.5 + 0.5;
+            let iterationLevel = result.c[0];
+            console.log("Iterate:", result)
+            let accuracy = Math.floor(Math.random() * 101);
             console.log("Accuracy", accuracy)
-            var iterationLevel;
 
-            if (parent===-1){
-                iterationLevel = 1
-            }else{
-                iterationLevel = instance.get_iterationLevel(parent, {from:accounts[0]})
-            }
+            console.log(modelName, parent, description, ipfs, accuracy, category, iterationLevel, price)
 
             return instance.create_model(
-                modelName, parent, description, ipfs, accuracy, category, iterationLevel, price, {from:accounts[0]})
+                modelName, parent, description, ipfs, accuracy, category, iterationLevel, price,
+                {from:this.props.account[0]})
         }).then((result)=>{
 
             console.log("Create model result", result)
@@ -175,10 +168,9 @@ class UploadModel extends Component {
         }).then((result)=>{
             console.log("Model count created", result)
 
-            return instance.get_all_models_by_user(this.props.account, {from:this.state.account})
+            return instance.get_all_models_by_user(this.props.account, {from:this.props.account[0]})
         }).then((result)=>{
             console.log(result)
-            console.log("Instance is the same", this.props.instance === instance)
             message.success('Model Upload success!');
         }).catch((err)=>{
             console.log(err)
@@ -189,6 +181,8 @@ class UploadModel extends Component {
 
 
     render() {
+
+        const { match: { params } } = this.props;
 
         const dataSource = [{
             key: '1',
@@ -231,14 +225,14 @@ class UploadModel extends Component {
                 <div className="Formitems">
                     <FormItem label="Name">
                         <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                               defaultValue={this.state.author}
+                               defaultValue={this.props.account}
                                size="large"
-                               name="username"
+                               name="author"
                                disabled="true"/>
                     </FormItem>
                     <FormItem label="Model Category">
                         <Input prefix={<Icon type="bars" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                               defaultValue={this.state.category}
+                               defaultValue={params.category}
                                size="large"
                                name="category"
                                disabled="true"/>

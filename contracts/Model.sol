@@ -9,7 +9,7 @@ contract Model {
     int public parent;          // Parent model ID, 0 if current model is Genesis
     int[] public children;      // List of subordinate model IDs
     bool public genesis;        // Boolean if genesis model
-    int256 public accuracy;     // Float type model accuracy
+    int public accuracy;     // Float type model accuracy
     string public category;     // Model belonged category
     int public iterationLevel;  // Level of current model in its tree
     int public price;        // Model price set by the creator
@@ -24,7 +24,7 @@ contract Model {
         string _description,
         bytes _ipfs,
         int _parent,
-        int256 _accuracy,
+        int _accuracy,
         string _category,
         int _iterationLevel,
         int _price
@@ -60,11 +60,11 @@ contract Model {
         _;
     }
 
-    function set_accuracy(address caller, int256 _accuracy) public isOwner(caller) {
+    function set_accuracy(address caller, int _accuracy) public isOwner(caller) {
        accuracy  = _accuracy;
     }
 
-    function get_accuracy() public view returns(int256){
+    function get_accuracy() public view returns(int){
         return accuracy;
     }
 
@@ -101,7 +101,7 @@ contract Model {
             int id_,
             address owner_,
             string name_,
-            int256 accuracy_,
+            int accuracy_,
             string category_,
             int price_,
             int parent_,
