@@ -23,7 +23,7 @@ contract MarketPlace {
     function() public payable {}
 
     /** Built-in model categories
-      * @ type - string
+      * @type - string
       */
     string[4] Categories = [
         "Image Recognition",
@@ -61,14 +61,14 @@ contract MarketPlace {
     /************************ Getter Functions ******************************/
 
     /** Get the category_count value
-      * @returns int
+      * @return int
       */
     function get_count() public view returns(int){
         return category_count;
     }
 
     /** Get the built-in category name and description
-      * @returns string
+      * @return string
       */
     function get_category(int _id) public view returns(string){
         return Categories[uint(_id)];
@@ -77,7 +77,7 @@ contract MarketPlace {
 
 
     /** Get model ID list by a category
-      * @param string category name
+      * @param _category category
       * @return int[] list of model ID
       */
     function get_models_by_category(string _category)
@@ -90,7 +90,7 @@ contract MarketPlace {
 
 
     /** Get description of a model
-      * @param int model id
+      * @param _id model id
       * @return string model description
       */
     function get_model_desc(int _id) public view returns(string){
@@ -99,7 +99,7 @@ contract MarketPlace {
 
 
     /** Get accuracy of a model
-      * @param int model id
+      * @param  _id model id
       * @return int model accuracy
       */
     function get_model_accuracy(int _id) public view returns(int){
@@ -108,7 +108,7 @@ contract MarketPlace {
 
 
     /** Get model contract address by model id
-      * @param int model id
+      * @param  _id model id
       * @return address model contract address
       */
     function get_model_by_id(int _id) public view returns(address){
@@ -117,18 +117,18 @@ contract MarketPlace {
 
 
     /** Get all the info of a model
-      * @param int model id
+      * @param  _id model id
       * @return   int id_,
-                  address owner_,
-                  string name_,
-                  int accuracy_,
-                  string category_,
-                  int price_,
-                  int parent_,
-                  bool genesis_,
-                  bytes ipfs_,
-                  int iterationLevel_,
-                  string description_
+      *           address owner_,
+      *           string name_,
+      *           int accuracy_,
+      *           string category_,
+      *           int price_,
+      *           int parent_,
+      *           bool genesis_,
+      *           bytes ipfs_,
+      *           int iterationLevel_,
+      *           string description_,
       */
     function get_model_all(int _id) public view returns (
         int id_,
@@ -148,7 +148,7 @@ contract MarketPlace {
 
 
     /** Get all model IDs created by a user
-      * @param address user address
+      * @param _user user address
       * @return int[] a ID list
       */
     function get_all_models_by_user(address _user)
@@ -168,7 +168,7 @@ contract MarketPlace {
     }
 
     /** Get the child models by a parent model's ID
-      * @param int parent model ID
+      * @param _id parent model ID
       * @return int[] child models ID list
       */
     function get_models_by_parent(int _id) public view returns (int[]){
@@ -177,7 +177,7 @@ contract MarketPlace {
 
 
     /** Get an iteration level of a model
-      * @param int model ID
+      * @param _id model ID
       * @return int iteration level
       */
     function get_iterationLevel(int _id) public view returns (int){
@@ -194,14 +194,6 @@ contract MarketPlace {
     /** Create a new model contract
       * Store ID and contract address in global variables
       * Update model_count, which is ID incrementor
-      * @param string _name,
-      * @param int _parent,
-      * @param string _description,
-      * @param bytes _ipfs,
-      * @param int _accuracy,
-      * @param string _category,
-      * @param int _iterationLevel,
-      * @param int _price
       * @return bool successful
       */
     function create_model(
@@ -240,8 +232,8 @@ contract MarketPlace {
 
 
     /** Set IPFS hash of a model
-      * @param int model id
-      * @param bytes ipfs new_address
+      * @param _id model id
+      * @param _ipfs ipfs new_address
       */
     function set_ipfshash( bytes _ipfs, int _id) public{
         models[_id].set_ipfs(msg.sender, _ipfs);
@@ -249,8 +241,8 @@ contract MarketPlace {
 
 
     /** Set the model's accuracy
-      * @param int model ID
-      * @param int accuracy
+      * @param _id model ID
+      * @param _accuarcy accuracy
       */
     function set_accuracy(int _id, int _accuarcy) public {
         require(models_by_user[msg.sender].length != 0);
@@ -263,7 +255,7 @@ contract MarketPlace {
 
 
     /** Save user detail into mapping when user login in
-      * @param address user_account
+      * @param _account user_account
       * @return bool successful
       */
     function register_user(address _account) public returns (bool) {
@@ -273,8 +265,8 @@ contract MarketPlace {
 
 
     /** Add a child model ID to parent model's child model list
-      * @param int parent model ID
-      * @param int child model ID
+      * @param _parent  model ID
+      * @param _child  model ID
       * @return bool successful
       */
     function append_child(int _parent, int _child) public returns (bool){
