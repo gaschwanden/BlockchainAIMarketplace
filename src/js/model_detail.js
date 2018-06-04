@@ -107,7 +107,7 @@ class ModelDetail extends React.Component{
     openChildModels = () =>{
         console.log("Open child")
         this.props.history.push({
-            pathname: `/parent/${this.state.data['id']}`,
+            pathname: `/models/parent/${this.state.data['id']}`,
             state: {
                 account: this.state.account,
             }

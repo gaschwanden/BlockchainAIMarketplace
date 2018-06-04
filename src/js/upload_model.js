@@ -4,7 +4,10 @@ import web3 from './../utils/web3.js';
 import Alert from 'react-s-alert';
 import ipfs from '../utils/ipfs.js';
 import storehash from '../utils/storehash.js';
-import { Button, Table, Form, Input, Divider, Icon, InputNumber,message } from 'antd';
+import {    Button, Table, Form,
+            Input, Divider, Icon,
+            InputNumber, message,
+            Spin, Alert as Notification} from 'antd';
 const FormItem = Form.Item;
 
 
@@ -14,6 +17,7 @@ class UploadModel extends Component {
         this.state = {
             web3: null,
             instance: null,
+            loading: false,
 
             // Model part
             category:'Image Recognition',
@@ -91,7 +95,7 @@ class UploadModel extends Component {
     // Function for handling upload the model to IPFS
     onSubmit = async (event) => {
       event.preventDefault();
-
+        this.setState({loading:true});
       //bring in user's metamask account address
       const accounts = await web3.eth.getAccounts();
 
@@ -117,12 +121,12 @@ class UploadModel extends Component {
         }, (error, transactionHash) => {
           console.log(transactionHash);
           this.setState({transactionHash});
+          this.setState({loading:false})
         }); //storehash
       }) //await ipfs.add
     }; //onSubmit
 
 
-    // TODO upload web3 functions
     // Function for handling upload the whole form to Blockchain
     handleSubmit = (e) => {
         e.preventDefault();
@@ -266,6 +270,12 @@ class UploadModel extends Component {
                     </FormItem>
                 </div>
                 <div>
+                    <Spin size="large"
+                              spinning={this.state.loading}
+                              className="Float"
+                              tip="Waiting for MetaMask to send the Transaction...">
+                    </Spin>
+
                     <Divider><h3> Choose file to send to IPFS </h3></Divider>
 
                       <Form onSubmit={this.onSubmit}>

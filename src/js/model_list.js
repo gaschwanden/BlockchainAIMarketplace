@@ -5,11 +5,9 @@
  *
  */
 import React from 'react'
-import { List, Card } from 'antd';
 import '../css/layout.css';
-import { Button, Table, Icon, Divider } from 'antd';
+import { Button, Table, Divider } from 'antd';
 import getWeb3 from './../utils/getWeb3';
-import {withRouter} from 'react-router-dom';
 import '../css/index.css'
 
 class ModelList extends React.Component{
@@ -62,7 +60,8 @@ class ModelList extends React.Component{
             }).then((result)=>{
 
                 console.log("User model list", result)
-                var modelIdList = result
+                var modelIdList = result;
+                this.setState({modelList:[]});
 
                 for (var i = 0; i < modelIdList.length; i++) {
                     console.log(modelIdList[i],modelIdList[i].c);
@@ -99,7 +98,7 @@ class ModelList extends React.Component{
         console.log('componentWillReceiveProps', nextProps);
         if (this.props !== nextProps) {
             console.log("Not  Sameeeeeeeeeeeeeeeeeeeeeeeeee")
-            this.getModelData(nextProps);
+            this.getModelList(nextProps);
         }
     }
 
@@ -130,19 +129,19 @@ class ModelList extends React.Component{
             title: 'Name',
             dataIndex: 'name',
             defaultSortOrder: 'descend',
-            sorter: (a, b) => a.name - b.name,
+            sorter: (a, b) => a.name > b.name,
         }, {
             title: 'Owner',
             dataIndex: 'owner',
-            sorter: (a, b) => a.owner - b.owner
+            sorter: (a, b) => a.owner > b.owner
         }, {
             title: 'Description',
             dataIndex: 'description',
-            sorter: (a, b) => a.description - b.description
+            sorter: (a, b) => a.description > b.description
         }, {
             title: 'Category',
             dataIndex: 'category',
-            sorter: (a, b) => a.category - b.category
+            sorter: (a, b) => a.category > b.category
         }, {
             title: 'Accuracy',
             dataIndex: 'accuracy',
@@ -154,7 +153,6 @@ class ModelList extends React.Component{
         }];
 
 
-        // TODO click on row direct
         return(
             <div className="App">
                 {
@@ -189,7 +187,6 @@ class ModelList extends React.Component{
                                     pathname: `/model/${data['id']}`,
                                     state: {
                                         account: this.state.account,
-                                        parent: -1,
                                     }
                                 });
                             }
@@ -203,10 +200,7 @@ class ModelList extends React.Component{
                             Click to upload a new genesis model
                         </Button>
                     </div>
-
                 }
-
-
 
 
             </div>

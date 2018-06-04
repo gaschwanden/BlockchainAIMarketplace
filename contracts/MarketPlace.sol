@@ -1,61 +1,209 @@
+/*
+ * Main smart contract, logic entry
+ * also is the factory contract for model contract
+ * and contest contract
+ *
+ * @File instruction: constructor, variables, getter, setter
+ * @Auther: Chenhan Ma, Kevin, kevinma2222@gmail.com
+ */
+
 pragma solidity ^0.4.22;
 
 import './Model.sol';
 
 contract MarketPlace {
 
-    string[4]  Categories = [
+    // Constructor
+    constructor() public{
+      creator = msg.sender;
+    }
+
+
+    // Payable method, will apply in the future
+    function() public payable {}
+
+    /** Built-in model categories
+      * @ type - string
+      */
+    string[4] Categories = [
         "Image Recognition",
         "Models for image recognition, such as categorizing animals",
         "Medical Diagnosis",
         "Models for disease diagnosis, such as cancer classification"];
-
     int category_count = 4;
 
-    address owner;
+
+    /** User struct
+      * @params user_address and balance
+      */
+    struct User {
+        address user_address;
+        int balance;
+    }
+
 
     // Global data storage for models
-    int public model_count;
-    mapping (address => User) users;
-    mapping (string => int[]) models_by_category;
-    mapping (address => int[]) models_by_user;
-    mapping (int => Model) models;
-    mapping (int => int[]) models_by_contest;
-    mapping (int => int[]) children_models;
-    int[] indexes; // List of Model IDs for enumeration
+    address creator;
+    int public model_count;                         // Model ID incrementor
+    mapping (address => User) users;                // Users storage
+    mapping (string => int[]) models_by_category;   // Models by category name
+    mapping (address => int[]) models_by_user;      // Models owned by user
+    mapping (int => Model) models;                  // Find model by ID
+    mapping (int => int[]) models_by_contest;       // Models by contest id
+    mapping (int => int[]) children_models;         // Child models by parent
+    int[] indexes;                                  // Model ID storage list
+    mapping (address => int[]) contests;            // Contest IDs by user
+    int public best_submission_index;               // Best model index
+    int public best_submission_accuracy = 0;        // Best model accuracy
 
-    mapping (address => int[]) contestId;
 
 
-    int public best_submission_index;
-    int public best_submission_accuracy = 0;
+    /************************ Getter Functions ******************************/
 
-    constructor() public{
-      owner = msg.sender;
-
-    }
-
-    function set_default(int _num) public{
-        category_count = _num;
-        Categories[0] = "ImageData";
-        Categories[1] = "MedicalData";
-    }
-
+    /** Get the category_count value
+      * @returns int
+      */
     function get_count() public view returns(int){
         return category_count;
     }
 
+    /** Get the built-in category name and description
+      * @returns string
+      */
     function get_category(int _id) public view returns(string){
         return Categories[uint(_id)];
     }
 
-    function() public payable {}
 
-    struct User {
-      address user_address;
-      int balance;
+
+    /** Get model ID list by a category
+      * @param string category name
+      * @return int[] list of model ID
+      */
+    function get_models_by_category(string _category)
+        public
+        view
+        returns (int[]){
+        int[] storage model_list = models_by_category[_category];
+        return model_list;
     }
 
+
+    /** Get description of a model
+      * @param int model id
+      * @return string model description
+      */
+    function get_model_desc(int _id) public view returns(string){
+        return models[_id].get_name();
+    }
+
+
+    /** Get accuracy of a model
+      * @param int model id
+      * @return int model accuracy
+      */
+    function get_model_accuracy(int _id) public view returns(int){
+        return models[_id].get_accuracy();
+    }
+
+
+    /** Get model contract address by model id
+      * @param int model id
+      * @return address model contract address
+      */
+    function get_model_by_id(int _id) public view returns(address){
+        return models[_id];
+    }
+
+
+    /** Get all the info of a model
+      * @param int model id
+      * @return   int id_,
+                  address owner_,
+                  string name_,
+                  int accuracy_,
+                  string category_,
+                  int price_,
+                  int parent_,
+                  bool genesis_,
+                  bytes ipfs_,
+                  int iterationLevel_,
+                  string description_
+      */
+    function get_model_all(int _id) public view returns (
+        int id_,
+        address owner_,
+        string name_,
+        int accuracy_,
+        string category_,
+        int price_,
+        int parent_,
+        bool genesis_,
+        bytes ipfs_,
+        int iterationLevel_,
+        string description_)
+    {
+        return models[_id].get_model_all();
+    }
+
+
+    /** Get all model IDs created by a user
+      * @param address user address
+      * @return int[] a ID list
+      */
+    function get_all_models_by_user(address _user)
+        public
+        view
+        returns (int[]){
+        int[] storage model_list = models_by_user[_user];
+        return model_list;
+    }
+
+
+    /** get the current number of models in the marketplace
+      * @return int number of models
+      */
+    function get_model_count() public view returns(int){
+        return model_count;
+    }
+
+    /** Get the child models by a parent model's ID
+      * @param int parent model ID
+      * @return int[] child models ID list
+      */
+    function get_models_by_parent(int _id) public view returns (int[]){
+        return children_models[_id];
+    }
+
+
+    /** Get an iteration level of a model
+      * @param int model ID
+      * @return int iteration level
+      */
+    function get_iterationLevel(int _id) public view returns (int){
+        if (_id == 0){
+            return 1;
+        }
+        return models[_id].get_iterationLevel();
+    }
+
+
+    /************************ Setter Functions ******************************/
+
+
+    /** Create a new model contract
+      * Store ID and contract address in global variables
+      * Update model_count, which is ID incrementor
+      * @param string _name,
+      * @param int _parent,
+      * @param string _description,
+      * @param bytes _ipfs,
+      * @param int _accuracy,
+      * @param string _category,
+      * @param int _iterationLevel,
+      * @param int _price
+      * @return bool successful
+      */
     function create_model(
         string _name,
         int _parent,
@@ -84,12 +232,26 @@ contract MarketPlace {
         model_count = model_count + 1;
 
         // Add current model to parent model's children
-        if ( _parent != -1){
+        if ( _parent != 0){
             children_models[_parent].push(id);
         }
         return true;
     }
 
+
+    /** Set IPFS hash of a model
+      * @param int model id
+      * @param bytes ipfs new_address
+      */
+    function set_ipfshash( bytes _ipfs, int _id) public{
+        models[_id].set_ipfs(msg.sender, _ipfs);
+    }
+
+
+    /** Set the model's accuracy
+      * @param int model ID
+      * @param int accuracy
+      */
     function set_accuracy(int _id, int _accuarcy) public {
         require(models_by_user[msg.sender].length != 0);
         models[_id].set_accuracy(msg.sender, _accuarcy);
@@ -99,71 +261,27 @@ contract MarketPlace {
         }
     }
 
-    function get_models_by_category(string _category) public view returns (int[]){
-      int[] storage model_list = models_by_category[_category];
-      return model_list;
+
+    /** Save user detail into mapping when user login in
+      * @param address user_account
+      * @return bool successful
+      */
+    function register_user(address _account) public returns (bool) {
+        users[_account] = User(_account, 100);
+        return true;
     }
 
-    function get_model_desc(int _id) public view returns(string){
-        return models[_id].get_name();
-    }
 
-    function get_model_accuracy(int _id) public view returns(int){
-        return models[_id].get_accuracy();
-    }
-
-    function get_model_by_id(int _id) public view returns(address){
-        return models[_id];
-    }
-
-    function get_model_all(int _id) public view returns (
-      int id_,
-      address owner_,
-      string name_,
-      int accuracy_,
-      string category_,
-      int price_,
-      int parent_,
-      bool genesis_,
-      bytes ipfs_,
-      int iterationLevel_,
-      string description_)
-    {
-      return models[_id].get_model_all();
-    }
-
-    function get_all_models_by_user(address _user) public view returns (int[]){
-      int[] storage model_list = models_by_user[_user];
-      return model_list;
-    }
-
-    function set_ipfshash( bytes _ipfs, int _id) public{
-        models[_id].set_ipfs(msg.sender, _ipfs);
-    }
-
-    function get_model_count() public view returns(int){
-        return model_count;
-    }
-
-    function get_models_by_parent(int _id) public view returns (int[]){
-        return children_models[_id];
-    }
-
+    /** Add a child model ID to parent model's child model list
+      * @param int parent model ID
+      * @param int child model ID
+      * @return bool successful
+      */
     function append_child(int _parent, int _child) public returns (bool){
         models[_parent].append_child(_child);
         return true;
     }
 
-    function get_iterationLevel(int _id) public view returns (int){
-        if (_id == 0){
-            return 1;
-        }
-        return models[_id].get_iterationLevel();
-    }
-
     // TODO send reward function
-
     // TODO contest functions
-
-
 }
