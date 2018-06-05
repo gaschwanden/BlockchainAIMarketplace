@@ -3,12 +3,14 @@
  *
  * Details of a specific model
  *
+ * @Note: IPFS currently can't encode some type of files such as .py
+ *        therefore there will be an encoding error when downloading files
+ *        Image type files are ok to view and download
  */
 
 import React from 'react'
-import { List, Card } from 'antd';
 import '../css/layout.css';
-import { Button, Table, Icon, Divider } from 'antd';
+import { Button, Table} from 'antd';
 import getWeb3 from './../utils/getWeb3';
 import '../css/index.css'
 
@@ -27,14 +29,15 @@ class ModelDetail extends React.Component{
             childModels: null
         };
 
+        // Get model data using parent component passed props
         this.getModelData(this.props);
-
     }
 
     getModelData = (prop) => {
         console.log("Model detail passed props", prop);
+
+        // Get params passed by the URL
         const {match: {params}} = prop;
-        console.log("Params", params, params.modelID);
         this.setState({params: params});
 
         getWeb3.then(results => {
@@ -42,14 +45,18 @@ class ModelDetail extends React.Component{
                 web3: results.web3
             });
 
-            var instance;
+            let instance;
             results.web3.eth.getAccounts((error, accounts) => {
+
                 instance = prop.instance;
-                console.log("Model detail instance", instance, accounts)
                 this.setState({account: accounts[0]});
+
                 return accounts[0];
             }).then((result) => {
-                var map = {};
+                let map = {};
+
+                // Get model details of the current model
+                // Using params ID passed by URL
                 instance.get_model_all.call(params.modelID).then((result) => {
                     map["id"]          = result[0].c[0];
                     map["owner"]       = result[1];
@@ -64,36 +71,38 @@ class ModelDetail extends React.Component{
                     map["description"] = result[10];
 
                     this.setState({data:map});
-
                     console.log("Model detail Map", map);
                 });
                 return map;
             }).then((result)=>{
+
+                // Get model list by parent model ID
                 instance.get_models_by_parent.call(params.modelID).then((result) =>{
                     var array = [];
                     for( var i=0; i<result.length;i++){
                         let temp = result[i].c[0];
-                        console.log("Get children", temp)
-
                         array.push(temp)
                     }
                     this.setState({childModels:array})
-
                 })
+
             }) // End of processing model data
         }) // End of get3 promise
     };
 
+
+    // Update model detail when props updates
     componentWillReceiveProps(nextProps) {
-        console.log('componentWillReceiveProps', nextProps);
+        // console.log('componentWillReceiveProps', nextProps);
         if (this.props !== nextProps) {
-            console.log("Not  Sameeeeeeeeeeeeeeeeeeeeeeeeee")
+            // console.log("Not  Sameeeeeeeeeeeeeeeeeeeeeeeeee")
             this.getModelData(nextProps);
         }
     }
 
+    // Open parent model onclick event
     openParentModel = () => {
-        console.log("Open parent")
+        console.log("Open parent");
         this.props.history.push({
             pathname: `/model/${this.state.data['parent']}`,
             state: {
@@ -103,8 +112,10 @@ class ModelDetail extends React.Component{
         });
     };
 
+
+    // Open children model onclick event
     openChildModels = () =>{
-        console.log("Open child")
+        console.log("Open child");
         this.props.history.push({
             pathname: `/models/parent/${this.state.data['id']}`,
             state: {
@@ -113,10 +124,14 @@ class ModelDetail extends React.Component{
         });
     };
 
+
+    // Download model button onclick event
     onClickDownload = () =>{
         window.open(`https://gateway.ipfs.io/ipfs/${this.state.data['ipfs']}`)
     };
 
+
+    // Improve model button onclick event
     uploadModel = () => {
         this.props.history.push({
             pathname: `/upload/${this.state.data['category']}/${this.state.data['id']}`,
@@ -124,7 +139,7 @@ class ModelDetail extends React.Component{
                 account: this.state.account,
             }
         });
-    }
+    };
 
     render(){
         const columns = [{
@@ -139,18 +154,29 @@ class ModelDetail extends React.Component{
 
         console.log("Model detail render", this.state.data)
 
-        var children = [];
+        let children = [];
         if (this.state.childModels){
             console.log("Child models", this.state.childModels)
             children = this.state.childModels
         }
 
-        var data;
-        var name;
+
+        let data;
+        let name; // Used for display in the title
+
+        // If current state hasn't update data
+        // Because getModelData takes time to execute
         if (!this.state.data){
             data = []
         }else{
+
+            // let downloadLink = `https://gateway.ipfs.io/ipfs/${this.state.data['ipfs']}`;
+            // Encapsulate data
             data = [{
+                key: '0',
+                name: 'Model ID',
+                value: this.state.data['id']
+            },{
                 key: '1',
                 name: 'Model owner',
                 value: this.state.data['owner']
@@ -169,11 +195,14 @@ class ModelDetail extends React.Component{
             }, {
                 key: '5',
                 name: 'Price',
-                value: this.state.data['price']
+                value:  <div>
+                            <p>{this.state.data['price']}</p>
+                            <Button type="primary" disabled>Purchase Model Coming Soon</Button>
+                        </div>
             }, {
                 key: '6',
                 name: 'Parent Model',
-                value: this.state.data['genesis'] === true
+                value: this.state.data['genesis'] === true      // Check current model is genesis, render differently
                     ?
                     <div><p>This model is a genesis model.</p>
                         <Button type="primary" disabled>Parent Model</Button>
@@ -186,17 +215,19 @@ class ModelDetail extends React.Component{
                         </Button>
                     </div>
             }, {
+                // TODO child model list
                 key: '7',
                 name: 'Child Models',
                 value: children.length === 0
-                    ?
+                    ?           // If current model doesn't have children
                     <div>
                         This model doesn't have child models.
                     </div>
-                    :
+                    :           // If current model has children
                     <div>
-                        <p>{children}</p>
-                        <Button type="primary" onClick={this.openChildModels.bind(this)}>
+                        <p> [ {children.join(", ")} ] </p>
+                        <Button type="primary"
+                                onClick={this.openChildModels.bind(this)}>
                             Child Models
                         </Button>
                     </div>
@@ -206,7 +237,9 @@ class ModelDetail extends React.Component{
                 value:
                     <div>
                         <p>{this.state.data['ipfs']}</p>
-                        <Button type="primary" icon="download" onClick={this.onClickDownload.bind(this)}>
+                        <Button type="primary"
+                                icon="download"
+                                onClick={this.onClickDownload.bind(this)}>
                             Download From IPFS
                         </Button>
                     </div>
@@ -218,9 +251,6 @@ class ModelDetail extends React.Component{
 
             name = this.state.data['name'];
         }
-
-
-        console.log("Model detail", data)
 
 
         return(
