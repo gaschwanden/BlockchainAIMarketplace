@@ -8,6 +8,7 @@
 <br/> 
 ---
 ---
+
 # Content
 * [Project Introduction](#project-introduction)
 * [Project conception](#project-conception)
@@ -20,6 +21,7 @@
 <br/> 
 ---
 ---
+
 # Project Introduction
 
 This project aims to build DApp on Ethereum network to help the current ML and AI processes.
@@ -50,6 +52,7 @@ e.g. Medical data to make diagnosis more accurate.
 <br/> 
 ---
 ---
+
 # Prerequisite  
 
 ### Ethereum dependencies  
@@ -70,6 +73,7 @@ e.g. Medical data to make diagnosis more accurate.
 <br/> 
 ---
 ---
+
 # Installation
 Note: 
 * Due to the nature of Ethereum project, the installation process will be a little bit complex.    
@@ -138,6 +142,7 @@ truffle init
 <br/> 
 ---
 ---
+
 # Project Directory Introduction
 |Path name|Introduction|
 |----|-----|
@@ -151,6 +156,7 @@ truffle init
 <br/> 
 ---
 ---
+
 # Application Page Introduction
 |Path name|Introduction|
 |----|-----|
