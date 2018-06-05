@@ -1,3 +1,9 @@
+/**
+ * Created by machenhan on 2018/3/24.
+ *
+ * Get web3 service util, reusable service
+ *
+ */
 import Web3 from 'web3'
 
 let getWeb3 = new Promise(function(resolve, reject) {

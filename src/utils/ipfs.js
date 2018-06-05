@@ -1,3 +1,10 @@
+/**
+ * Created by machenhan on 2018/3/24.
+ *
+ * IPFS service configuration
+ * No need to start local daemon
+ */
+
 //using the infura.io node, otherwise ipfs requires you to run a daemon on your own computer/server. See IPFS.io docs
 const IPFS = require('ipfs-api');
 const ipfs = new IPFS({ host: 'ipfs.infura.io', port: 5001, protocol: 'https' });

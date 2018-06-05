@@ -1,3 +1,10 @@
+/**
+ * Created by machenhan on 2018/3/24.
+ *
+ * Contract ABI for IPFS contract
+ *
+ */
+
 import web3 from './../utils/web3';
 
 const address = '0xb84b12e953f5bcf01b05f926728e855f2d4a67a9';

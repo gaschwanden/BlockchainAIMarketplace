@@ -1,5 +1,12 @@
+/**
+ * Created by machenhan on 2018/3/24.
+ *
+ * Application homepage
+ *
+ *
+ */
+
 import React from 'react'
-import ReactDOM from 'react-dom'
 
 class UserHome extends React.Component{
   render(){

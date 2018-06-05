@@ -4,7 +4,6 @@
  * Details of a specific model
  *
  */
-// TODO render model detail component
 
 import React from 'react'
 import { List, Card } from 'antd';
