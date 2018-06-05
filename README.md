@@ -3,11 +3,8 @@
   * Student Name : Chenhan Ma <br />
   * Student ID   : 823289  <br />
   * Email   : chenhanm@student.unimelb.edu.au
-
-
-<br/> 
----
-
+ 
+***
 
 # Content
 * [Project Introduction](#project-introduction)
@@ -18,8 +15,7 @@
 * [Application Page Introduction](#application-page-introduction)  
 
 
-<br/> 
----
+***
 
 
 # Project Introduction
@@ -49,9 +45,7 @@ What if people can contribute their data into one.  ***(Future Work)***
 e.g. Medical data to make diagnosis more accurate.
 
 
-<br/> 
----
-
+***
 
 # Prerequisite  
 
@@ -70,8 +64,7 @@ e.g. Medical data to make diagnosis more accurate.
 * Chrome Browser (Must use for MetaMask)
       
 
-<br/> 
----
+***
 
 
 # Installation
@@ -139,8 +132,7 @@ truffle init
     * Try to create another model of the first model as parent.
     * Then you will be able to switch between models in the tree using the button in the model detail page.
 
-<br/> 
----
+***
 
 
 # Project Directory Introduction
@@ -153,8 +145,7 @@ truffle init
 |`migrations`|Truffle migration files|
 |`src`|Web Application source code|
 
-<br/> 
----
+***
 
 # Application Page Introduction
 |Path name|Introduction|
