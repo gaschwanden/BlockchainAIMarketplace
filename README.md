@@ -7,7 +7,7 @@
 
 <br/> 
 ---
----
+
 
 # Content
 * [Project Introduction](#project-introduction)
@@ -20,7 +20,7 @@
 
 <br/> 
 ---
----
+
 
 # Project Introduction
 
@@ -51,7 +51,7 @@ e.g. Medical data to make diagnosis more accurate.
 
 <br/> 
 ---
----
+
 
 # Prerequisite  
 
@@ -72,7 +72,7 @@ e.g. Medical data to make diagnosis more accurate.
 
 <br/> 
 ---
----
+
 
 # Installation
 Note: 
@@ -141,7 +141,7 @@ truffle init
 
 <br/> 
 ---
----
+
 
 # Project Directory Introduction
 |Path name|Introduction|
@@ -154,7 +154,6 @@ truffle init
 |`src`|Web Application source code|
 
 <br/> 
----
 ---
 
 # Application Page Introduction
