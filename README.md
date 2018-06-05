@@ -4,16 +4,22 @@
   * Student ID   : 823289  <br />
   * Email   : chenhanm@student.unimelb.edu.au
 
+
+<br/> 
+---
 ---
 # Content
 * [Project Introduction](#project-introduction)
-* [Project conception](#Project-conception)
-* [Prerequisite](#Prerequisite)
-* [Installation](#Installation)
-* [Project Directory Introduction](#Project-Directory-Introduction)
+* [Project conception](#project-conception)
+* [Prerequisite](#prerequisite)
+* [Installation](#installation)
+* [Project Directory Introduction](#project-directory-introduction)
 * [Application Page Introduction](#application-page-introduction)  
 
-***
+
+<br/> 
+---
+---
 # Project Introduction
 
 This project aims to build DApp on Ethereum network to help the current ML and AI processes.
@@ -41,8 +47,9 @@ What if people can contribute their data into one.  ***(Future Work)***
 e.g. Medical data to make diagnosis more accurate.
 
 
+<br/> 
 ---
-
+---
 # Prerequisite  
 
 ### Ethereum dependencies  
@@ -59,9 +66,10 @@ e.g. Medical data to make diagnosis more accurate.
 * node 8.9.1
 * Chrome Browser (Must use for MetaMask)
       
-    
-<br/>
 
+<br/> 
+---
+---
 # Installation
 Note: 
 * Due to the nature of Ethereum project, the installation process will be a little bit complex.    
@@ -77,7 +85,7 @@ Note:
 **3.**  **Install MetaMask:**
 * https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn  
 
-**4.**  Install Truffle:  
+**4.**  **Install Truffle:**  
 * https://github.com/trufflesuite/truffle  
 * http://truffleframework.com/docs/advanced/commands
 
@@ -127,9 +135,9 @@ truffle init
     * Try to create another model of the first model as parent.
     * Then you will be able to switch between models in the tree using the button in the model detail page.
 
----
 <br/> 
-
+---
+---
 # Project Directory Introduction
 |Path name|Introduction|
 |----|-----|
@@ -141,7 +149,8 @@ truffle init
 |`src`|Web Application source code|
 
 <br/> 
-
+---
+---
 # Application Page Introduction
 |Path name|Introduction|
 |----|-----|
