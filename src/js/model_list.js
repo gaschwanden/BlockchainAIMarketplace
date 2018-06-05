@@ -8,7 +8,7 @@
  */
 import React from 'react'
 import '../css/layout.css';
-import { Button, Table, Divider } from 'antd';
+import { Button, Table, Divider, message, Icon} from 'antd';
 import getWeb3 from './../utils/getWeb3';
 import '../css/index.css'
 
@@ -42,8 +42,9 @@ class ModelList extends React.Component{
      * @update use parameter prop fix the bug of crashing when refresh page (caused by lost of contract instance)
      */
     getModelList = (prop) => {
+        console.log("We are in model list page, fetching model list");
+
         const { match: { params } } = prop;
-        console.log("Params", params);
         this.setState({params: params});
 
         getWeb3.then(results => {
@@ -58,6 +59,10 @@ class ModelList extends React.Component{
                 this.setState({account: accounts[0]});
                 return accounts[0];
             }).then((result) => {
+                // Check the first parameter in the path after "models"
+                // If "user", then render a list of model created by that user
+                // If "category", then render a list of model in that category
+                // If "parent", then render a list of child models of that parent model
                 if (params.param==="user"){
 
                     console.log("User");
@@ -73,15 +78,16 @@ class ModelList extends React.Component{
                 }
             }).then((result)=>{
 
-                console.log("User model list", result)
-                var modelIdList = result;
+                console.log("In model list page trying to get model details from model ID list", result);
+                let modelIdList = result;
                 this.setState({modelList:[]});      // Reset state, avoid state updated increment multiples
+                let index = 0;
 
-                for (var i = 0; i < modelIdList.length; i++) {
-                    console.log(modelIdList[i],modelIdList[i].c);
-                    var index = 0;
+                for (let i = 0; i < modelIdList.length; i++) {
+
                     instance.get_model_all.call(modelIdList[i].c[0]).then((result) => {
-                        var map            = {};
+                        let map            = {};
+
                         map["key"]         = index + 1;
                         map["id"]          = result[0].c[0];
                         map["owner"]       = result[1];
@@ -90,7 +96,7 @@ class ModelList extends React.Component{
                         map["category"]    = result[4];
                         map["price"]       = result[5].c[0];
                         map["parent"]      = result[6].c[0];
-                        map["genesis"]     = result[7];
+                        map["genesis"]     = result[7] === true ? <Icon type="star" /> : null;
                         map["ipfs"]        = result[8];
                         map["level"]       = result[9].c[0];
                         map["description"] = result[10];
@@ -100,10 +106,13 @@ class ModelList extends React.Component{
                             modelList: [...previousState.modelList, map]
                         }));
 
-                        console.log("Model List Map", map);
+                        console.log("Add this model data to list", map);
                     })
                 }
-            }) // End of processing model data
+            }).catch((err)=>{
+                console.log(err);
+                message.error('An error occured when retrieving model lists!');
+            })  // End of processing model data
         }) // End of get3 promise
     };
 
@@ -113,9 +122,9 @@ class ModelList extends React.Component{
      * @param nextProps is the props after updated
      */
     componentWillReceiveProps(nextProps) {
-        console.log('componentWillReceiveProps', nextProps);
+        console.log('componentWillReceiveProps at model list page', nextProps);
         if (this.props !== nextProps) {
-            console.log("Not  Sameeeeeeeeeeeeeeeeeeeeeeeeee")
+            console.log("The page will be updated with new props");
             this.getModelList(nextProps);
         }
     }
@@ -176,6 +185,9 @@ class ModelList extends React.Component{
             title: 'Price',
             dataIndex: 'price',
             sorter: (a, b) => a.price - b.price
+        }, {
+            title: 'Genesis',
+            dataIndex: 'genesis',
         }];
 
 

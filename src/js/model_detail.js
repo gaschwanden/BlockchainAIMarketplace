@@ -10,7 +10,7 @@
 
 import React from 'react'
 import '../css/layout.css';
-import { Button, Table} from 'antd';
+import { Button, Table, message} from 'antd';
 import getWeb3 from './../utils/getWeb3';
 import '../css/index.css'
 
@@ -34,7 +34,7 @@ class ModelDetail extends React.Component{
     }
 
     getModelData = (prop) => {
-        console.log("Model detail passed props", prop);
+        console.log("We are in model detail page, getting model data!");
 
         // Get params passed by the URL
         const {match: {params}} = prop;
@@ -71,21 +71,25 @@ class ModelDetail extends React.Component{
                     map["description"] = result[10];
 
                     this.setState({data:map});
-                    console.log("Model detail Map", map);
+                    console.log("Current model details fetched success", map);
                 });
                 return map;
             }).then((result)=>{
 
                 // Get model list by parent model ID
                 instance.get_models_by_parent.call(params.modelID).then((result) =>{
-                    var array = [];
-                    for( var i=0; i<result.length;i++){
+                    let array = [];
+                    for( let i=0; i<result.length;i++){
                         let temp = result[i].c[0];
                         array.push(temp)
                     }
                     this.setState({childModels:array})
+                    console.log("Get child models success, date is:", array)
                 })
 
+            }).catch((err)=>{
+                console.log(err);
+                message.error('An error occured when retrieving model data!');
             }) // End of processing model data
         }) // End of get3 promise
     };
@@ -152,11 +156,11 @@ class ModelDetail extends React.Component{
             key: 'value',
         }];
 
-        console.log("Model detail render", this.state.data)
+        console.log("Model detail rendering data:", this.state.data);
 
         let children = [];
         if (this.state.childModels){
-            console.log("Child models", this.state.childModels)
+            console.log("This model has child models of:", this.state.childModels);
             children = this.state.childModels
         }
 
@@ -215,7 +219,6 @@ class ModelDetail extends React.Component{
                         </Button>
                     </div>
             }, {
-                // TODO child model list
                 key: '7',
                 name: 'Child Models',
                 value: children.length === 0

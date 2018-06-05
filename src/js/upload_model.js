@@ -7,13 +7,13 @@ import storehash from '../utils/storehash.js';
 import {    Button, Table, Form,
             Input, Divider, Icon,
             InputNumber, message,
-            Spin, Alert as Notification} from 'antd';
+            Spin, Alert as Notification } from 'antd';
 const FormItem = Form.Item;
 
 
-class UploadModel extends Component {
+class UploadModel extends React.Component {
     constructor(props){
-        super(props)
+        super(props);
         this.state = {
             web3: null,
             instance: null,
@@ -53,13 +53,14 @@ class UploadModel extends Component {
 
     // Model file buffer
     captureFile =(event) => {
-        event.stopPropagation()
-        event.preventDefault()
-        const file = event.target.files[0]
-        let reader = new window.FileReader()
-        reader.readAsArrayBuffer(file)
+        event.stopPropagation();
+        event.preventDefault();
+        const file = event.target.files[0];
+        let reader = new window.FileReader();
+        reader.readAsArrayBuffer(file);
         reader.onloadend = () => this.convertToBuffer(reader)
     };
+
 
     convertToBuffer = async(reader) => {
       //file is converted to a buffer to prepare for uploading to IPFS
@@ -89,41 +90,41 @@ class UploadModel extends Component {
         catch(error){
             console.log(error);
           } //catch
-    } //onClick
+    };//onClick
 
 
     // Function for handling upload the model to IPFS
     onSubmit = async (event) => {
-      event.preventDefault();
+        event.preventDefault();
         this.setState({loading:true});
-      //bring in user's metamask account address
-      const accounts = await web3.eth.getAccounts();
+        //bring in user's metamask account address
+        const accounts = await web3.eth.getAccounts();
 
-      console.log('Sending from Metamask account: ' + accounts[0]);
+        console.log('Sending from Metamask account: ' + accounts[0]);
 
-      //obtain contract address from storehash.js
-      const ethAddress= await storehash.options.address;
-      this.setState({ethAddress});
+        //obtain contract address from storehash.js
+        const ethAddress= await storehash.options.address;
+        this.setState({ethAddress});
 
-      //save document to IPFS,return its hash#, and set hash# to state
-      //https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/FILES.md#add
-      await ipfs.add(this.state.buffer, (err, ipfsHash) => {
-        console.log(err,ipfsHash);
-        //setState by setting ipfsHash to ipfsHash[0].hash
-        this.setState({ ipfsHash:ipfsHash[0].hash });
+        //save document to IPFS,return its hash#, and set hash# to state
+        //https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/FILES.md#add
+        await ipfs.add(this.state.buffer, (err, ipfsHash) => {
+            console.log(err,ipfsHash);
+            //setState by setting ipfsHash to ipfsHash[0].hash
+            this.setState({ ipfsHash:ipfsHash[0].hash });
 
-        // call Ethereum contract method "sendHash" and .send IPFS hash to etheruem contract
-        //return the transaction hash from the ethereum contract
-        //see, this https://web3js.readthedocs.io/en/1.0/web3-eth-contract.html#methods-mymethod-send
+            // call Ethereum contract method "sendHash" and .send IPFS hash to etheruem contract
+            //return the transaction hash from the ethereum contract
+            //see, this https://web3js.readthedocs.io/en/1.0/web3-eth-contract.html#methods-mymethod-send
 
-        storehash.methods.sendHash(this.state.ipfsHash).send({
-          from: accounts[0]
-        }, (error, transactionHash) => {
-          console.log(transactionHash);
-          this.setState({transactionHash});
-          this.setState({loading:false})
-        }); //storehash
-      }) //await ipfs.add
+            storehash.methods.sendHash(this.state.ipfsHash).send({
+                from: accounts[0]
+            }, (error, transactionHash) => {
+                console.log(transactionHash);
+                this.setState({transactionHash});
+                this.setState({loading:false})
+            }); //storehash
+        }) //await ipfs.add
     }; //onSubmit
 
 
@@ -132,62 +133,59 @@ class UploadModel extends Component {
         e.preventDefault();
         const { match: { params } } = this.props;
 
-        var category = e.target.category.value;
-        var author = this.props.account;
-        var modelName = e.target.modelName.value;
-        var description = e.target.modelDescription.value;
-        var price = e.target.price.value;
-        var ipfs = this.state.ipfsHash;
-        var parent = params.parentID;
+        let category = e.target.category.value;
+        let modelName = e.target.modelName.value;
+        let description = e.target.modelDescription.value;
+        let price = e.target.price.value;
+        let ipfs = this.state.ipfsHash;
+        let parent = params.parentID;
 
+        // Check model has been uploaded or not
         if (ipfs===null){
-            console.log("Fired")
             Alert.info('Please upload your model', {
                 position: 'top-right',
                 effect: 'genie'
             });
-
             return false
         }
 
         let instance = this.props.instance;
-        console.log(this.props.instance, parent)
-        instance.get_iterationLevel.call(parseInt(parent), {from: this.props.account[0]}).then((result) =>{
+        instance.get_iterationLevel
+            .call(parseInt(parent), {from: this.props.account[0]})
+            .then((result) =>{
 
             let iterationLevel = result.c[0];
-            console.log("Iterate:", result)
             let accuracy = Math.floor(Math.random() * 101);
-            console.log("Accuracy", accuracy)
 
-            console.log(modelName, parent, description, ipfs, accuracy, category, iterationLevel, price)
+            console.log("Creating model with",
+                modelName, parent, description, ipfs, accuracy, category, iterationLevel, price);
 
             return instance.create_model(
                 modelName, parent, description, ipfs, accuracy, category, iterationLevel, price,
                 {from:this.props.account[0]})
         }).then((result)=>{
 
-            console.log("Create model result", result)
+            console.log("Create model result", result);
             return instance.get_model_count.call()
 
         }).then((result)=>{
-            console.log("Model count created", result)
+            console.log("Model count created", result);
 
             return instance.get_all_models_by_user(this.props.account, {from:this.props.account[0]})
-        }).then((result)=>{
-            console.log(result)
+        }).then(()=>{
             message.success('Model Upload success!');
         }).catch((err)=>{
-            console.log(err)
+            console.log(err);
             message.error('An error occured when uploading model!');
-        })
-
-    };
+        }) // End of promise
+    }; //End of submit model button
 
 
     render() {
 
         const { match: { params } } = this.props;
 
+        // Table data to be rendered
         const dataSource = [{
             key: '1',
             name: 'IPFS Hash stored on Eth Contract',
@@ -210,6 +208,8 @@ class UploadModel extends Component {
             value: this.state.gasUsed,
         }];
 
+
+        // Table structure, column name
         const columns = [{
             title: 'Receipt Category',
             dataIndex: 'name',
@@ -221,90 +221,95 @@ class UploadModel extends Component {
         }];
 
 
-      return (
-        <div className="App">
-            <Form onSubmit={this.handleSubmit} className="Form">
-                <Divider><h2> Upload Model </h2></Divider>
+        return (
+            <div className="App">
+                <Form onSubmit={this.handleSubmit} className="Form">
+                    <Divider><h2> Upload Model </h2></Divider>
 
-                <div className="Formitems">
-                    <FormItem label="Name">
-                        <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                               defaultValue={this.props.account}
-                               size="large"
-                               name="author"
-                               disabled="true"/>
-                    </FormItem>
-                    <FormItem label="Model Category">
-                        <Input prefix={<Icon type="bars" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                               defaultValue={params.category}
-                               size="large"
-                               name="category"
-                               disabled="true"/>
-                    </FormItem>
-                    <FormItem label="Model Name">
-                        <Input prefix={<Icon type="file" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                               placeholder="Input your model name"
-                               size="large"
-                               name="modelName"
-                               required="true"
-                        />
-                    </FormItem>
-                    <FormItem label="Model Description">
-                        <Input prefix={<Icon type="file" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                               placeholder="Input your model description"
-                               size="large"
-                               name="modelDescription"
-                               required="true"
-                               rows={4}
-                        />
-                    </FormItem>
-                    <FormItem label="Model Price (Set your relative model price 1-100)">
-                        <InputNumber prefix={<Icon type="file" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                               placeholder="Price"
-                               size="large"
-                               name="price"
-                               required="true"
-                               min={1}
-                               max={10}
-                        />
-                    </FormItem>
-                </div>
-                <div>
-                    <Spin size="large"
+                    <div className="Formitems">
+                        <FormItem label="Name">
+                            <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                                   defaultValue={this.props.account}
+                                   size="large"
+                                   name="author"
+                                   disabled="true"/>
+                        </FormItem>
+                        <FormItem label="Model Category">
+                            <Input prefix={<Icon type="bars" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                                   defaultValue={params.category}
+                                   size="large"
+                                   name="category"
+                                   disabled="true"/>
+                        </FormItem>
+                        <FormItem label="Model Name">
+                            <Input prefix={<Icon type="file" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                                   placeholder="Input your model name"
+                                   size="large"
+                                   name="modelName"
+                                   required="true"
+                            />
+                        </FormItem>
+                        <FormItem label="Model Description">
+                            <Input prefix={<Icon type="file" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                                   placeholder="Input your model description"
+                                   size="large"
+                                   name="modelDescription"
+                                   required="true"
+                                   rows={4}
+                            />
+                        </FormItem>
+                        <FormItem label="Model Price (Set your relative model price 1-100)">
+                            <InputNumber prefix={<Icon type="file" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                                         placeholder="Price"
+                                         size="large"
+                                         name="price"
+                                         required="true"
+                                         min={1}
+                                         max={10}
+                            />
+                        </FormItem>
+                    </div>
+                    <div>
+                        <Spin size="large"
                               spinning={this.state.loading}
                               className="Float"
                               tip="Waiting for MetaMask to send the Transaction...">
-                    </Spin>
+                        </Spin>
 
-                    <Divider><h3> Choose file to send to IPFS </h3></Divider>
+                        <Divider><h3> Choose file to send to IPFS </h3></Divider>
 
-                      <Form onSubmit={this.onSubmit}>
-                          <div>
-                              <input className="input"
-                                  type = "file"
-                                  onChange = {this.captureFile}
-                              />
-                              <Button
-                                  type="primary"
-                                  htmlType="submit"
-                                  name="submitFile">
-                                  Send it
-                              </Button>
-                          </div>
+                        <Form onSubmit={this.onSubmit}>
+                            <div>
+                                <input className="input"
+                                       type = "file"
+                                       onChange = {this.captureFile}
+                                />
+                                <Button
+                                    type="primary"
+                                    htmlType="submit"
+                                    name="submitFile">
+                                    Send it
+                                </Button>
+                            </div>
 
-                      </Form>
-                    <Divider/>
-                        <Button className="getReceipt" onClick = {this.onClick}> Get Transaction Receipt </Button>
+                        </Form>
+                        <Divider/>
+                        <Button className="getReceipt" onClick = {this.onClick}>
+                            Get Transaction Receipt
+                        </Button>
                         <br />
                         <Table dataSource={dataSource} columns={columns} />
-                </div>
-                <FormItem>
-                    <Button type="primary" htmlType="submit" name="submitModel">Submit Model</Button>
-                </FormItem>
-            </Form>
-        </div>
-      );
+                    </div>
+                    <FormItem>
+                        <Button type="primary" htmlType="submit" name="submitModel">Submit Model</Button>
+                    </FormItem>
+                </Form>
+            </div>
+        );
+
+
     } //render
+
 }
 
 export default UploadModel;
