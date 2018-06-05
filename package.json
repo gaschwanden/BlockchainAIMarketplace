@@ -14,7 +14,9 @@
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
     "react-s-alert": "^1.4.1",
+    "react-slick": "^0.23.1",
     "react-stepzilla": "^4.7.2",
+    "slick-carousel": "^1.8.1",
     "truffle-contract": "^3.0.5",
     "zeppelin-solidity": "1.8.0"
   },
