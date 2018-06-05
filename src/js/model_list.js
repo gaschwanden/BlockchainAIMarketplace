@@ -1,7 +1,9 @@
 /**
  * Created by machenhan on 2018/5/24.
  *
+ * Mode list page.
  * List of Models based on corresponding filters
+ * @Components: Mode list Table, Upload model Button (Condition category page)
  *
  */
 import React from 'react'
@@ -16,17 +18,29 @@ class ModelList extends React.Component{
         this.state = {
             web3: null,
             instance: null,
-            modelIdList: [], // List of Int, model ids
-            modelList: [], // List of Model details
+            modelIdList: [],    // List of Int, model ids
+            modelList: [],      // List of Model details
             account: null,
             params: null,
             data: null,
         };
 
+        // Update model list data
         this.getModelList(this.props)
 
     }// End of constructor
 
+
+    /*
+     * Promise functions
+     * @param `prop` (`prop` can be the parent component props, or the props after refresh)
+     * 1. Get account
+     * 2. If else conditions: fetch list of model IDs based on `param`
+     * 3. Get model details of each model ID in the list previously returned,
+     *      map them into a list of dictionaries
+     *
+     * @update use parameter prop fix the bug of crashing when refresh page (caused by lost of contract instance)
+     */
     getModelList = (prop) => {
         const { match: { params } } = prop;
         console.log("Params", params);
@@ -37,31 +51,31 @@ class ModelList extends React.Component{
                 web3: results.web3
             });
 
-            var instance;
+            let instance;
             results.web3.eth.getAccounts((error, accounts) => {
                 instance = prop.instance;
-                console.log("Model List instance", instance, accounts)
+                // console.log("Model List instance", instance, accounts)
                 this.setState({account: accounts[0]});
                 return accounts[0];
             }).then((result) => {
-                console.log("Model list account", result)
                 if (params.param==="user"){
-                    console.log("User")
+
+                    console.log("User");
                     return instance.get_all_models_by_user.call(result[0], {from: result[0]})
                 }else if (params.param==="category"){
-                    console.log("category")
 
+                    console.log("category");
                     return instance.get_models_by_category.call(params.paramKey, {from: result[0]})
                 }else{
-                    console.log("parent")
 
+                    console.log("parent");
                     return instance.get_models_by_parent.call(parseInt(params.paramKey), {from: result[0]})
                 }
             }).then((result)=>{
 
                 console.log("User model list", result)
                 var modelIdList = result;
-                this.setState({modelList:[]});
+                this.setState({modelList:[]});      // Reset state, avoid state updated increment multiples
 
                 for (var i = 0; i < modelIdList.length; i++) {
                     console.log(modelIdList[i],modelIdList[i].c);
@@ -94,6 +108,10 @@ class ModelList extends React.Component{
     };
 
 
+    /* componentWillReceiveProps
+     * React.js lifecycle method, used for re-render page when props update
+     * @param nextProps is the props after updated
+     */
     componentWillReceiveProps(nextProps) {
         console.log('componentWillReceiveProps', nextProps);
         if (this.props !== nextProps) {
@@ -103,11 +121,17 @@ class ModelList extends React.Component{
     }
 
 
+    /* Trigger table filter and sorter event
+     *
+     */
     onChange = (pagination, filters, sorter) => {
         console.log('params', pagination, filters, sorter);
     };
 
 
+    /* onClick upload button event
+     * Enable user to upload a genesis model
+     */
     onClickButton = () =>{
         const { match: { params } } = this.props;
         this.props.history.push({
@@ -118,9 +142,11 @@ class ModelList extends React.Component{
         });
     };
 
-    render(){
-        var data = this.state.modelList;
 
+    render(){
+        let data = this.state.modelList;        // Model list table data
+
+        // Table column header and settings
         const columns = [{
             title: 'ID',
             dataIndex: 'id',
@@ -193,6 +219,7 @@ class ModelList extends React.Component{
                         };
                     }}
                 />
+
                 { this.props.match.params.param === "category" &&
                     <div>
                         <Divider/>
@@ -201,7 +228,6 @@ class ModelList extends React.Component{
                         </Button>
                     </div>
                 }
-
 
             </div>
         )

@@ -11,6 +11,7 @@ module.exports = {
     path: path.join(__dirname, 'dist'),
     filename: 'build.js'
   },
+
   module: {
     rules: [
       {
@@ -28,6 +29,14 @@ module.exports = {
         test: /\.json$/,
         loader: 'json-loader',
         include: '/build/contracts/'
+      }, {
+        test: /\.(png|jpg|gif)$/,
+        use: [
+            {
+             loader: 'file-loader',
+             options: {}
+           }
+        ]
       }
     ]
   },
