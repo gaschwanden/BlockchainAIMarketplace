@@ -5,16 +5,16 @@
   * Email   : chenhanm@student.unimelb.edu.au
 
 ---
-## Content
-* [Project Introduction](#Project Introduction)
-* [Project conception](#Project conception)
+# Content
+* [Project Introduction](#project-introduction)
+* [Project conception](#Project-conception)
 * [Prerequisite](#Prerequisite)
 * [Installation](#Installation)
-* [Project Directory Introduction](#Project Directory Introduction)
-* [Application Page Introduction](#Application Page Introduction)  
+* [Project Directory Introduction](#Project-Directory-Introduction)
+* [Application Page Introduction](#application-page-introduction)  
 
 ***
-## Project Introduction
+# Project Introduction
 
 This project aims to build DApp on Ethereum network to help the current ML and AI processes.
 Currently, it is essentially a machine learning model marketplace that 
@@ -24,7 +24,7 @@ User can log into the system using MetaMask, currently the blockchain is running
 User can upload their ML model, with files uploaded to IPFS.  
 Then users are able to see the model list, model detail in the model tree created.
 
-#### Project conception:
+### Project conception:
 **This project has the following three ideas:**  
 
 **1.**  Model iteration system, a ML open source community for users 
@@ -43,9 +43,9 @@ e.g. Medical data to make diagnosis more accurate.
 
 ---
 
-## Prerequisite  
+# Prerequisite  
 
-##### Ethereum dependencies  
+### Ethereum dependencies  
   Note:   
   Since Ethereum development is still immature,  it is recommended to use the same version of dependencies below or higher
 * Truffle v4.1.8 (core: 4.1.9)
@@ -54,7 +54,7 @@ e.g. Medical data to make diagnosis more accurate.
 * MetaMask 4.7.3
 * Web3.js 1.0.0-beta.34
 
-##### Web dependencies
+### Web dependencies
 * npm 6.0.0 
 * node 8.9.1
 * Chrome Browser (Must use for MetaMask)
@@ -62,16 +62,21 @@ e.g. Medical data to make diagnosis more accurate.
     
 <br/>
 
-## Installation
+# Installation
 Note: 
 * Due to the nature of Ethereum project, the installation process will be a little bit complex.    
 
 
-**1.**  Make sure npm and node is installed:  https://nodejs.org/en/    
+**1.**  **Make sure npm and node is installed:**  
+* https://nodejs.org/en/    
 * `npm -v` `node -v`
 
-**2.**  Install Ganache: https://github.com/trufflesuite/ganache  
-**3.**  Install MetaMask: https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn  
+**2.**  **Install Ganache:**
+* https://github.com/trufflesuite/ganache  
+
+**3.**  **Install MetaMask:**
+* https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn  
+
 **4.**  Install Truffle:  
 * https://github.com/trufflesuite/truffle  
 * http://truffleframework.com/docs/advanced/commands
@@ -82,22 +87,24 @@ npm init -y
 truffle init
 ```
 
-**5.**  Install solidity:  http://solidity.readthedocs.io/en/v0.4.24/installing-solidity.html 
+**5.**  **Install solidity:**
+  * http://solidity.readthedocs.io/en/v0.4.24/installing-solidity.html 
 * `npm install -g solc` 
 
 **6.**  Run `npm install` under current root directory, this will install all the packages in the `package.json`  
 
-**7.**  cd into root directory, run the following commands to compile the smart contracts
-* `truffle compile` This will compile all the smart contract in the folder
-* `truffle migrate` This will run all the migration files to deploy contracts into `build/contract` folder  
-* Each time restart Metamask or Ganache, run this to reset all.   
+**7.**  **Deploy Smart Contract:**
+* cd into root directory, run the following commands to compile the smart contracts:
+    * `truffle compile` This will compile all the smart contract in the folder
+    * `truffle migrate` This will run all the migration files to deploy contracts into `build/contract` folder  
+    * Each time restart Metamask or Ganache, run this to reset all.   
 ```truffle migrate --reset --compile-all  ```
 	
-**8.**  Open Ganache: 
+**8.**  **Open Ganache:** 
 * Set Hostname to **`127.0.0.1`**, Port number to **8545**, network ID **5777**  
 * Click on the key icon on any account, copy the private key
 
-**9.**  Open MetaMask: 
+**9.**  **Open MetaMask:** 
 * Set the custom RPC to address: `http://localhost:8545`, switch to it
 * Click the second button on the top left, import an account using the PK
 * You should be able to see 100 Ether in your MetaMask account given by Ganache
@@ -106,7 +113,7 @@ truffle init
 
 **11.** Finally, open browser, go to `localhost:8080`
 
-**12.** Website guide:
+**12.** **Website guide:**
 
 * **Note**:
     * Currently IPFS can upload all kinds of files, but can't download binray files, such as `.py`.   
@@ -123,7 +130,7 @@ truffle init
 ---
 <br/> 
 
-## Project Directory Introduction
+# Project Directory Introduction
 |Path name|Introduction|
 |----|-----|
 |`build/contracts`|Deployed Smart Contract json file|
@@ -135,7 +142,7 @@ truffle init
 
 <br/> 
 
-## Application Page Introduction
+# Application Page Introduction
 |Path name|Introduction|
 |----|-----|
 |Home Page|![home page](./img/home.png)|
